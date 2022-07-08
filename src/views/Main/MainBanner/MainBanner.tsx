@@ -1,15 +1,20 @@
 import React, {FC} from 'react';
 import styles from './MainBanner.module.scss';
 import image from './../../../assets/icons/pdd_sofa.svg'
+import ButtonStandart from "../../../components/buttons/ButtonStandart/ButtonStandart";
 
 const MainBanner : FC = (props) => {
     return (
         <div className={styles.banner}>
             <div className={styles.banner__text}>
                 <div className={styles.banner__title}>Думаешь, что уже готов?</div>
-                <div className={styles.banner__subtitle}>Покажи, что ты можешь и реши экзамен</div>
+                <div className={styles.banner__subtitle}>
+                    Покажи, что ты можешь и реши экзамен без единой ошибки
+                </div>
                 <div className={styles.banner__button}>
-                    <button>Пройти экзамен</button>
+                    <ButtonStandart variant={"primary"}>
+                        Пройти экзамен
+                    </ButtonStandart>
                 </div>
             </div>
             <div className={styles.banner__image}>
