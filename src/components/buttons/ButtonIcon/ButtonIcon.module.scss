@@ -1,5 +1,5 @@
 .btn{
-  padding: 25px 75px;
+  padding: 25px 35px;
   border-radius: var(--normal-border-radius);
   border: none;
   font-family: var(--font-family-main);
@@ -11,6 +11,7 @@
   align-items: center;
   justify-content: center;
   gap: 1rem;
+  white-space: nowrap;
   font-weight: 500;
   img{
     width: 30px;
