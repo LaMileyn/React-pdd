@@ -5,5 +5,10 @@
   &__buttonCategorysTickets{
     display: flex;
     gap: 1rem;
+    @media screen and (max-width: 545px){
+      &{
+        flex-direction: column;
+      }
+    }
   }
 }
