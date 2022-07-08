@@ -7,7 +7,7 @@ interface ButtonProps{
     variant? : "red" | "purple" | "blue",
     children: React.ReactNode
 }
-const ButtonIcon : FC<ButtonProps> = ({ children, variant}) => {
+const ButtonIcon : FC<ButtonProps> = ({ children, variant = "red"}) => {
     return (
         <button className={cn(styles.btn,styles[`${variant}`])}>
             { children }

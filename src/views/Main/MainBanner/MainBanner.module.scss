@@ -5,16 +5,11 @@
   grid-template-columns: auto 330px;
   gap: 2rem;
   align-items: center;
-
-
-
-
+  margin-bottom: var(--section-vertical-margin);
   &__title{
     font-size: 40px;
     font-weight: 500;
     margin-bottom: 15px;
-
-
   }
   &__subtitle{
     font-size: 22px;
@@ -23,6 +18,9 @@
     max-width: 350px;
   }
   &__button{
+    width: 250px;
+    height: 47px;
+    white-space: nowrap;
   }
   /// adaptive
   @media screen and (max-width: 778px){
