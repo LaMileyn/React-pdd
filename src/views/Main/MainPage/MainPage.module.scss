@@ -1,0 +1,9 @@
+.mainPage{
+  h1{
+    margin-bottom: var(--section-vertical-margin);
+  }
+  &__buttonCategorysTickets{
+    display: flex;
+    gap: 1rem;
+  }
+}

@@ -1,0 +1,34 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;800&family=Righteous&family=Roboto:wght@400;500;700&family=Source+Sans+Pro:ital,wght@0,400;0,600;1,400&display=swap');
+:root {
+  //  colors
+  --wheat: #FFEFD8;
+  --blue-light: rgba(75, 144, 226, 0.86);
+  --blue-normal: #1B75CC;
+  --red-light: #F52F2F;
+  --red-normal: #D84D4D;
+  --purple: rgba(117, 55, 146, 0.62);
+  --dark-primary: #000000;
+  --grey-secondary: #727272;
+  --grey-100: #F5F5F5;
+  --grey-300: #E3E8EF;
+  --green-light: #47BC84;
+  --green-normal: #85B73E;
+  //  colors
+
+  // container
+  --container-max-width: 1266px;
+  --container-left-right-paddings: 30px;
+  // container
+
+  //paddings ana margins
+  --section-vertical-margin: 40px;
+  //paddings ana margins
+
+  //borders
+  --normal-border-radius: 4px;
+  //borders
+
+  //fonts
+  --font-family-main: 'Roboto', 'Source Sans Pro', sans-serif;
+  //fonts
+}

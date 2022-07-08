@@ -1,0 +1,31 @@
+.btn{
+  padding: 25px 75px;
+  border-radius: var(--normal-border-radius);
+  border: none;
+  font-family: var(--font-family-main);
+  cursor: pointer;
+  transition: 150ms all;
+  width: 100%;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  font-weight: 500;
+  img{
+    width: 30px;
+    height: 30px;
+  }
+  &:hover{
+    transform: scale(1.03);
+  }
+  &.red{
+    background-color: var(--red-light);
+  }
+  &.purple{
+    background-color: var(--purple);
+  }
+  &.blue{
+    background-color: var(--blue-normal);
+  }
+}

@@ -1,0 +1,29 @@
+@import "./variables";
+*{
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  outline: none;
+  list-style-type: none;
+  font-size: 100%;
+}
+body{
+  font-family: var(--font-family-main);
+  background-color: white;
+}
+h1{
+  font-size: 36px;
+  color: var(--dark-primary);
+}
+h2{
+  font-size: 20px;
+}
+h3{
+  font-size: 24px;
+  color: var(--dark-primary);
+}
+img{
+  width:100%;
+  height: 100%;
+  object-fit: cover;
+}

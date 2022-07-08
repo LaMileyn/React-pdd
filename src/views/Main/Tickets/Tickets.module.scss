@@ -1,0 +1,107 @@
+.tickets {
+  margin-bottom: var(--section-vertical-margin);
+  &__title {
+    margin-bottom: var(--section-vertical-margin);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    @media screen and (max-width: 650px) {
+      flex-direction: column;
+      gap: .5rem;
+      align-items: start;
+    }
+
+    span {
+      color: var(--blue-normal);
+      font-weight: 400;
+      text-decoration: underline;
+      cursor: pointer;
+
+      &:hover {
+        color: var(--red-normal);
+      }
+    }
+  }
+
+  &__mainContent {
+    display: grid;
+    grid-template-columns: 350px auto;
+
+    .examBlock {
+      border-radius: var(--normal-border-radius);
+      background-color: var(--blue-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      min-height: 200px;
+
+      &__category {
+        font-size: 55px;
+        color: white;
+      }
+
+      &__link {
+        background-color: white;
+        padding: 19px 30px;
+        border-radius: var(--normal-border-radius);
+        font-size: 20px;
+        color: var(--blue-normal);
+        font-weight: 500;
+        cursor: pointer;
+        white-space: nowrap;
+
+        &:hover {
+          color: var(--red-normal);
+        }
+      }
+
+    }
+
+    .tickets__items {
+    }
+
+    .tickets__item {
+      margin-left: 10px;
+      margin-bottom: 10px;
+      display: inline-block;
+      border-radius: 2px;
+      line-height: 45px;
+      background-color: var(--grey-100);
+      color: var(--blue-light);
+      height: 45px;
+      width: 45px;
+      text-align: center;
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+
+      &:hover {
+        color: var(--red-normal);
+        background-color: var(--grey-300);
+      }
+    }
+
+    //adaptive
+    @media screen and (max-width: 745px) {
+      & {
+        grid-template-columns: auto;
+      }
+      .examBlock {
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 0 50px;
+        gap: 2rem;
+        margin-bottom: 20px;
+      }
+    }
+    @media screen and (max-width: 745px) {
+      .examBlock {
+        flex-direction: column;
+        justify-content: center;
+        gap: 1rem;
+      }
+    }
+  }
+}
