@@ -3,6 +3,7 @@ import styles from './TicketPage.module.scss';
 import Container from "../../../components/Container/Container";
 import clock from '../../../assets/icons/clockBlack.svg'
 import TicketQuestionArea from "../../../components/TicketQuestionArea/TicketQuestionArea";
+import Paginator from "../../../components/Paginator/Paginator";
 
 
 const TicketPage: FC = (props) => {
@@ -25,6 +26,9 @@ const TicketPage: FC = (props) => {
                     <div className={styles.ticket__finishTicket}>
                         Завершить досрочно
                     </div>
+                </div>
+                <div className={styles.paginator}>
+                    <Paginator itemsCount={14}/>
                 </div>
                 <div className={styles.ticket__questions}>
                     <TicketQuestionArea/>
