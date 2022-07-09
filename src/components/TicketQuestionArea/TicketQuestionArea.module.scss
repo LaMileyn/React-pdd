@@ -35,10 +35,6 @@
     margin-bottom: 20px;
   }
 
-  &__questions {
-
-  }
-
   &__item {
     padding: 15px 0;
     display: flex;
@@ -52,11 +48,22 @@
     .item__text {
       color: var(--blue-normal);
       cursor: pointer;
-
       &:hover {
         color: var(--red-normal);
       }
+
+      &.answered{
+        background-color: var(--yellow) ;
+      }
     }
+
+    .yourAnswerCorrect{
+      color: var(--green-normal);
+    }
+    .yourAnswerInCorrect{
+      color: var(--red-normal)
+    }
+
   }
 
   &__bottom{

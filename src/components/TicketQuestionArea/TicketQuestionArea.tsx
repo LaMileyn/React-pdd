@@ -4,6 +4,7 @@ import star from './../../assets/icons/star.png';
 import photoQuest from './../../assets/photos/10_9.jpg'
 import upArrow from './../../assets/icons/corner-right-up.png'
 import downArrow from './../../assets/icons/corner-right-down.png'
+import cn from 'classnames'
 
 const TicketQuestionArea: FC = (props) => {
     const isFav = false
@@ -37,7 +38,8 @@ const TicketQuestionArea: FC = (props) => {
             <div className={styles.question__questions}>
                 <div className={styles.question__item}>
                     <span className={styles.item__num}>1.</span>
-                    <span className={styles.item__text}>При условии недостаточной видимости</span>
+                    <span className={cn(styles.item__text,styles.answered)}>При условии недостаточной видимости</span>
+                    <span className={cn(styles.yourAnswerInCorrect)}>( Ваш ответ )</span>
                 </div>
                 <div className={styles.question__item}>
                     <span className={styles.item__num}>2.</span>

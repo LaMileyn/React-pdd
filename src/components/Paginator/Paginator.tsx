@@ -10,7 +10,6 @@ const Paginator : FC<PaginatorProps> = ({ itemsCount }) => {
     const pages = useMemo( () => {
         return Array(itemsCount).fill(null).map( (el,index) => index + 1)
     },[itemsCount])
-    console.log(pages)
 
     return (
         <div className={styles.paginator}>
