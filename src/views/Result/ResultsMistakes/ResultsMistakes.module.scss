@@ -1,0 +1,20 @@
+.headline{
+
+  &.headlineSuccess{
+    color: var(--green-light);
+  }
+  &.headlineFail{
+    color: var(--red-light);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    span{
+      color: var(--blue-normal);
+      cursor: pointer;
+      text-decoration: underline;
+      &:hover{
+        color: var(--red-normal);
+      }
+    }
+  }
+}

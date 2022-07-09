@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import styles from './MainBanner.module.scss';
-import image from './../../../assets/icons/pdd_sofa.svg'
+import image from '../../../assets/photos/pdd_sofa.svg'
 import {ButtonStandart} from "../../../components/buttons";
 
 const MainBanner : FC = (props) => {
