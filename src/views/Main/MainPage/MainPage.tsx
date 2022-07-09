@@ -6,6 +6,8 @@ import Tickets from "../Tickets/Tickets";
 import {ButtonIcon} from "../../../components/buttons";
 import alertTriange from './../../../assets/icons/alert-triangle.svg'
 import favourite from '../../../assets/icons/favourite.svg'
+import clock from '../../../assets/icons/clock.svg'
+import PddTopics from "../PddTopics/PddTopics";
 
 const MainPage: FC = (props) => {
     return (
@@ -24,6 +26,11 @@ const MainPage: FC = (props) => {
                         Мои ошибки
                     </ButtonIcon>
                 </div>
+                <PddTopics/>
+                <ButtonIcon variant={"blue"}>
+                    <img src={clock} alt=""/>
+                    Пройти марафон
+                </ButtonIcon>
             </Container>
         </section>
     );

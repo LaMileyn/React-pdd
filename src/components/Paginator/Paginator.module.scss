@@ -1,0 +1,35 @@
+.paginator{
+  margin-top: 20px;
+}
+
+.page{
+  margin-right: 10px;
+  display: inline-block;
+  border-radius: 2px;
+  line-height: 45px;
+  height: 45px;
+  border-radius: 2px;
+  width: 45px;
+  margin-bottom: 12px;
+  text-align: center;
+  background-color: var(--grey-100);
+  cursor: pointer;
+  &:hover{
+    background-color: var(--grey-300);
+  }
+  &.wrong{
+    background-color: var(--red-light);
+    color: white;
+    &:hover{
+      background-color: var(--red-normal);
+    }
+  }
+  &.correct{
+    background-color: var(--green-light);
+    color: white;
+    &:hover{
+      background-color: var(--green-normal);
+    }
+  }
+
+}

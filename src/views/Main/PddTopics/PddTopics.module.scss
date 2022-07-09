@@ -1,0 +1,52 @@
+.topics {
+  background-color: var(--grey-100);
+  padding: 55px 50px;
+  margin-bottom: var(--section-vertical-margin);
+
+  &__headline {
+    h3 {
+      margin-bottom: 5px;
+    }
+
+    p {
+      span {
+        color: var(--green-light);
+      }
+    }
+  }
+
+  &__items {
+    margin-top: 40px;
+    display: grid;
+    column-gap: 2rem;
+    grid-template-columns: 1fr 1fr;
+
+  }
+
+  &__item {
+    margin-bottom: 10px;
+    display: flex;
+    color: var(--blue-normal);
+    cursor: pointer;
+    gap: .5rem;
+
+    &:hover {
+      color: var(--red-normal);
+    }
+
+    img {
+      width: 20px;
+      height: 20px;
+      fill: coral;
+    }
+  }
+
+  @media screen and (max-width: 777px) {
+
+    &__items {
+      grid-template-columns: auto;
+      gap: .4rem;
+    }
+
+  }
+}
