@@ -1,6 +1,7 @@
 import React, {FC} from 'react';
 import styles from './Tickets.module.scss';
 import cn from 'classnames'
+import {Link} from "react-router-dom";
 
 const Tickets : FC = (props) => {
     return (
@@ -17,8 +18,11 @@ const Tickets : FC = (props) => {
                 <div className={styles.tickets__items}>
                     {
                         Array(24).fill(null).map( (el,index) => (
-                            <div key={el}
-                                 className={cn(styles.tickets__item)}>{index + 1}</div>
+                            <Link to={`/ticket/${index+1}`}>
+                                <div key={el}
+                                     className={cn(styles.tickets__item)}>{index + 1}</div>
+                            </Link>
+
                         ))
                     }
                 </div>
