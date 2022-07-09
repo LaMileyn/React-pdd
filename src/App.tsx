@@ -5,6 +5,7 @@ import MainPage from "./views/Main/MainPage/MainPage";
 import Header from "./components/Header/Header";
 import { Route, Routes } from "react-router-dom";
 import MainLayout from "./components/MainLayout/MainLayout";
+import TicketPage from "./views/Ticket/TicketPage/TicketPage";
 
 const App = () => {
     return (
@@ -12,6 +13,7 @@ const App = () => {
             <Routes>
                 <Route path="/" element={<MainLayout/>}>
                     <Route index element={<MainPage/>}/>
+                    <Route path="ticket/:id" element={<TicketPage/>}/>
                 </Route>
                 <Route path="*" element={<div>404 - Страница не найдена</div>}/>
             </Routes>

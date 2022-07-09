@@ -1,0 +1,45 @@
+.ticket{
+
+  &__headline{
+    span{
+      color: var(--grey-secondary);
+      font-weight: 500;
+    }
+    h1{
+      margin-top: 5px;
+    }
+    margin-bottom: var(--section-vertical-margin);
+  }
+
+  &__time{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__timer{
+    display: flex;
+    align-items: center;
+    gap: .3rem;
+  }
+  .timer__icon{
+    width: 20px;
+    height: 20px;
+  }
+  .timer__time{
+  }
+  &__finishTicket{
+    color: var(--blue-normal);
+    text-decoration: underline;
+    cursor: pointer;
+    &:hover{
+      color: var(--red-normal);
+    }
+  }
+
+  &__questions{
+    margin-top: var(--section-vertical-margin);
+  }
+
+
+}
