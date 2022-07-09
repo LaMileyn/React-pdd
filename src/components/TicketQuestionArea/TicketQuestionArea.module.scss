@@ -53,6 +53,10 @@
       }
 
       &.answered{
+        color: black;
+        cursor: auto;
+      }
+      &.correctAnswer{
         background-color: var(--yellow) ;
       }
     }

@@ -38,7 +38,7 @@ const TicketQuestionArea: FC = (props) => {
             <div className={styles.question__questions}>
                 <div className={styles.question__item}>
                     <span className={styles.item__num}>1.</span>
-                    <span className={cn(styles.item__text,styles.answered)}>При условии недостаточной видимости</span>
+                    <span className={cn(styles.item__text,styles.answered,styles.correctAnswer)}>При условии недостаточной видимости</span>
                     <span className={cn(styles.yourAnswerInCorrect)}>( Ваш ответ )</span>
                 </div>
                 <div className={styles.question__item}>
