@@ -12,11 +12,9 @@ export interface IAnswer {
     answer_text : string,
     is_correct : boolean
 }
-export interface ITicket {
-    ticket_number : number,
-    questions : Array<IQuestion>
-}
-export interface ITopic{
-    topic : string,
-    questions : Array<IQuestion>
-}
+// export interface ITicket {
+//     questions : Array<IQuestion>
+// }
+export type ITicket = Array<IQuestion>
+export type ITopic = Array<IQuestion>
+

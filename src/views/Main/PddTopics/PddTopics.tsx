@@ -1,7 +1,12 @@
 import React, {FC} from 'react';
 import styles from './PddTopics.module.scss';
+import {ITopic} from "../../../types/questions";
 
-const PddTopics: FC = (props) => {
+interface ITopicsProps {
+    topics : Array<ITopic>
+}
+const PddTopics: FC<ITopicsProps> = ({ topics }) => {
+    console.log(topics)
     return (
         <div className={styles.topics}>
             <div className={styles.topics__headline}>
@@ -11,10 +16,10 @@ const PddTopics: FC = (props) => {
             </div>
             <div className={styles.topics__items}>
                 {
-                    Array(20).fill(null).map( el => (
-                        <div className={styles.topics__item}>
+                    topics.map( (topic,index) => (
+                        <div key={index} className={styles.topics__item}>
                             <img src="https://www.freeiconspng.com/uploads/handshake-icon-29.png" alt=""/>
-                            <span>Общие положения ( 25 вопросов )</span>
+                            <span>{topic[0].topic} ( {topic.length } вопросов )</span>
                         </div>
                     ))
                 }
