@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './styles/main.scss'
 import './styles/variables.scss'
 import MainPage from "./views/Main/MainPage/MainPage";
@@ -7,8 +7,15 @@ import { Route, Routes } from "react-router-dom";
 import MainLayout from "./components/MainLayout/MainLayout";
 import TicketPage from "./views/Ticket/TicketPage/TicketPage";
 import ResultPage from "./views/Result/ResultPage/ResultPage";
+import {useAppDispatch} from "./utils/helpers/hooks";
+import {fetchPdd} from "./store/questions/questions.actions";
 
 const App = () => {
+
+    const dispatch = useAppDispatch()
+    useEffect(() =>{
+        dispatch(fetchPdd())
+    },[])
     return (
         <div className="App">
             <Routes>
