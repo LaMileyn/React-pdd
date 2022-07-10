@@ -15,7 +15,7 @@ const App = () => {
     const dispatch = useAppDispatch()
     useEffect(() =>{
         dispatch(fetchPdd())
-    },[])
+    },[dispatch])
     return (
         <div className="App">
             <Routes>

@@ -13,11 +13,9 @@ export interface IAnswer {
     answer_text : string,
     is_correct : boolean
 }
-// export interface ITopic {
-//     [key: number] : any,
-//     questions : Array<IQuestion>
-// }
-// export interface ITicket {
-//     [key: number] : any,
-//     questions : Array<IQuestion>
-// }
+
+export interface ICheckedQuestions {
+    [key : string] : string
+}
+
+

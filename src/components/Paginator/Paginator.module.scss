@@ -17,6 +17,9 @@
   &:hover{
     background-color: var(--grey-300);
   }
+  &.active{
+    background-color: var(--grey-300);
+  }
   &.wrong{
     background-color: var(--red-light);
     color: white;
@@ -31,5 +34,6 @@
       background-color: var(--green-normal);
     }
   }
+
 
 }

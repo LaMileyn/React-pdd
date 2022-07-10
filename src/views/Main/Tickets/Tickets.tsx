@@ -9,7 +9,6 @@ interface ITicketsProps{
     tickets : Array<IQuestion[]>
 }
 const Tickets : FC<ITicketsProps> = ({ tickets }) => {
-    console.log(tickets)
     return (
         <div className={styles.tickets}>
             <div className={styles.tickets__title}>

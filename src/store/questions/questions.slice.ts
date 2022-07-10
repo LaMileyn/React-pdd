@@ -1,24 +1,36 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {IQuestion } from "../../types/questions";
+import {ICheckedQuestions, IQuestion} from "../../types/questions";
 import {fetchPdd} from "./questions.actions";
 
 
 interface QuestionsData {
     topicsData: Array<IQuestion[]>,
     ticketsData: Array<IQuestion[]>,
+    checkedQuestions : ICheckedQuestions
     status: "loading" | "loaded"
 }
 
 const initialState: QuestionsData = {
     topicsData: [],
     ticketsData: [],
+    checkedQuestions : {},
     status: "loaded"
+}
+interface CheckedAddAction {
+    question : string,
+    answer : number
 }
 
 export const questionsSlice = createSlice({
         name: "questions",
         initialState,
-        reducers: {},
+        reducers: {
+            checkedAdd : (state,{ payload : { answer, question}} : PayloadAction<CheckedAddAction>) =>{
+                console.log(answer,question)
+                // @ts-ignore
+                state.checkedQuestions[question] = answer
+            }
+        },
         extraReducers: builder => {
             builder.addCase(fetchPdd.pending, (state, action) => {
                 state.status = "loading"
@@ -43,7 +55,6 @@ export const questionsSlice = createSlice({
                         topics[question.topic].push(question)
                     }
                 })
-                console.log(tickets)
                 state.ticketsData = Object.values(tickets)
                 state.topicsData = Object.values(topics)
 
@@ -56,4 +67,5 @@ export const questionsSlice = createSlice({
     }
 )
 
+export const { checkedAdd } = questionsSlice.actions
 export default questionsSlice.reducer

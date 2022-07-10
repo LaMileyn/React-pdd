@@ -1,4 +1,4 @@
-import React, {FC, useMemo, useState} from 'react';
+import React, {FC, useCallback, useMemo, useState} from 'react';
 import styles from './TicketPage.module.scss';
 import Container from "../../../components/Container/Container";
 import clock from '../../../assets/icons/clockBlack.svg'
@@ -12,13 +12,18 @@ import {IQuestion} from "../../../types/questions";
 const TicketPage: FC = (props) => {
 
     const id = Number(useParams().id)
-    const { ticketsData } = useAppSelector( state => state.pdd )
-    const currentTicket  = ticketsData[id-1]
-    const [currentQuestion,setCurrentQuestion] = useState<IQuestion>(currentTicket[0])
-    const changeCurrentPage = (page : number) =>{
-            setCurrentQuestion(currentTicket[page - 1])
-    }
-    if ( !ticketsData ) return <div>Loading....</div>
+    const { ticketsData, checkedQuestions } = useAppSelector(state => state.pdd)
+    const currentTicket = useMemo( () => {
+        return ticketsData[id - 1]
+    },[ticketsData])
+    const [currentQuestionNumber, setCurrentQuestionNumber] = useState<number>(0)
+    const changeQuestionChecked = useCallback( () => {
+            if ( ( "Билет "+currentQuestionNumber ) in checkedQuestions ){
+
+            }
+    },[checkedQuestions])
+
+    if (!currentTicket) return <div>Loading....</div>
     return (
         <section className={styles.ticket}>
             <Container>
@@ -40,10 +45,18 @@ const TicketPage: FC = (props) => {
                     </div>
                 </div>
                 <div className={styles.paginator}>
-                    <Paginator itemsCount={currentTicket.length} changePage={changeCurrentPage}/>
+                    <Paginator
+                               currentTicket={currentTicket}
+                               currentQuestionNumber={currentQuestionNumber}
+                               checkedQuestions={checkedQuestions}
+                               setCurrentQuestionNumber={setCurrentQuestionNumber}/>
                 </div>
                 <div className={styles.ticket__questions}>
-                    <TicketQuestionArea answered={false} correct={false} question={currentQuestion}/>
+                    <TicketQuestionArea
+                        answered={false}
+                        currentQuestionNumber={currentQuestionNumber}
+                        correct={false}
+                        question={currentTicket[currentQuestionNumber]}/>
                 </div>
             </Container>
         </section>

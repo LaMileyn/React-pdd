@@ -12,9 +12,9 @@ import {useAppSelector} from "../../../utils/helpers/hooks";
 
 const MainPage: FC = (props) => {
 
-    const { ticketsData, topicsData, status} = useAppSelector( state => state.pdd )
-
+    const { ticketsData, topicsData, status } = useAppSelector( state => state.pdd )
     if (status === "loading") return <div>Loading..</div>
+
     return (
         <section className={styles.mainPage}>
             <Container>

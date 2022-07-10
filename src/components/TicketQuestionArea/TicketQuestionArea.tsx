@@ -1,4 +1,4 @@
-import React, {FC, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import styles from './TicketQuestionArea.module.scss';
 import star from './../../assets/icons/star.png';
 import photoQuest from './../../assets/photos/10_9.jpg'
@@ -6,17 +6,31 @@ import upArrow from './../../assets/icons/corner-right-up.png'
 import downArrow from './../../assets/icons/corner-right-down.png'
 import cn from 'classnames'
 import {IQuestion} from "../../types/questions";
+import {useAppDispatch} from "../../utils/helpers/hooks";
+import {checkedAdd} from "../../store/questions/questions.slice";
 
 interface IProps{
     question : IQuestion,
     answered : boolean,
-    correct : boolean
+    correct : boolean,
+    currentQuestionNumber : number
 }
 
-const TicketQuestionArea: FC<IProps> = ( { question, correct, answered}) => {
+const TicketQuestionArea: FC<IProps> = ( { question, correct, answered,currentQuestionNumber}) => {
     const isFav = false
     const isPhoto = false
-    const [showHelper,setShopHelper] = useState<boolean>(true)
+    const [showHelper,setShowHelper] = useState<boolean>(false)
+    useEffect( () => {
+        setShowHelper(false)
+    },[currentQuestionNumber])
+    const dispatch = useAppDispatch()
+    const answerClickHandler = ( question : string, answer : number ) =>{
+        dispatch(checkedAdd({
+            question,
+            answer
+        }))
+    }
+
     return (
         <div className={styles.question}>
             <div className={styles.question__head}>
@@ -45,7 +59,8 @@ const TicketQuestionArea: FC<IProps> = ( { question, correct, answered}) => {
             <div className={styles.question__questions}>
                 {
                     question.answers.map( (answer,index) => (
-                        <div className={styles.question__item}>
+                        <div className={styles.question__item} key={index} onClick={
+                            () => answerClickHandler(question.title,index + 1 )}>
                             <span className={styles.item__num}>{index+1}.</span>
                             <span className={cn(styles.item__text,
                                 {
@@ -72,11 +87,10 @@ const TicketQuestionArea: FC<IProps> = ( { question, correct, answered}) => {
                     showHelper && (
                         <div className={styles.extraBlock}>
                             <div className={styles.extraBlock__answerTitle}>
-                                Правильный ответ: 3
+                                {question.correct_answer}
                             </div>
                             <div className={styles.extraBlock__answerText}>
-                                «Недостаточная видимость» – видимость дороги менее 300м в условиях тумана, дождя, снегопада и тому
-                                подобного, а также в сумерки. Пункт 1.2 термин «Недостаточная видимость».
+                                {question.answer_tip}
                             </div>
                         </div>
                     )
@@ -88,13 +102,13 @@ const TicketQuestionArea: FC<IProps> = ( { question, correct, answered}) => {
                             showHelper
                                 ? (
                                     <>
-                                        <span onClick={ () => setShopHelper(false)}>Скрыть подсказку</span>
+                                        <span onClick={ () => setShowHelper(false)}>Скрыть подсказку</span>
                                         <img src={upArrow} alt=""/>
                                     </>
                                 )
                                 : (
                                     <>
-                                        <span onClick={ () => setShopHelper(true)}>Показать подсказку</span>
+                                        <span onClick={ () => setShowHelper(true)}>Показать подсказку</span>
                                         <img src={downArrow} alt=""/>
                                     </>
                                 )
