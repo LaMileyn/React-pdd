@@ -1,17 +1,17 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {IQuestion, ITicket, ITopic} from "../../types/questions";
+import {IQuestion } from "../../types/questions";
 import {fetchPdd} from "./questions.actions";
 
 
 interface QuestionsData {
-    topicsData: Array<ITopic>,
-    tickesData: Array<ITicket>,
+    topicsData: Array<IQuestion[]>,
+    ticketsData: Array<IQuestion[]>,
     status: "loading" | "loaded"
 }
 
 const initialState: QuestionsData = {
     topicsData: [],
-    tickesData: [],
+    ticketsData: [],
     status: "loaded"
 }
 
@@ -32,6 +32,7 @@ export const questionsSlice = createSlice({
                         tickets[question.ticket_number].push(question)
                     } else {
                         tickets[question.ticket_number] = []
+                        tickets[question.ticket_number].push(question)
                     }
                 })
                 payload!.forEach(question => {
@@ -39,9 +40,11 @@ export const questionsSlice = createSlice({
                         topics[question.topic].push(question)
                     }else{
                         topics[question.topic] = []
+                        topics[question.topic].push(question)
                     }
                 })
-                state.tickesData = Object.values(tickets)
+                console.log(tickets)
+                state.ticketsData = Object.values(tickets)
                 state.topicsData = Object.values(topics)
 
             })

@@ -8,7 +8,6 @@ export const fetchPdd = createAsyncThunk(
     async () => {
         try {
             const {data} = await axios.get<Array<IQuestion>>("https://raw.githubusercontent.com/etspring/pdd_russia/master/questions.json");
-            console.log(data)
             return data
         }catch (error){
             console.log(error)

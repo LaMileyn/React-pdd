@@ -1,4 +1,5 @@
 export interface IQuestion {
+    [key: number] : any,
     title : string,
     ticket_number : string,
     image : string,
@@ -12,9 +13,11 @@ export interface IAnswer {
     answer_text : string,
     is_correct : boolean
 }
-// export interface ITicket {
+// export interface ITopic {
+//     [key: number] : any,
 //     questions : Array<IQuestion>
 // }
-export type ITicket = Array<IQuestion>
-export type ITopic = Array<IQuestion>
-
+// export interface ITicket {
+//     [key: number] : any,
+//     questions : Array<IQuestion>
+// }

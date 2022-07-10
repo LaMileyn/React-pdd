@@ -2,13 +2,14 @@ import React, {FC} from 'react';
 import styles from './Tickets.module.scss';
 import cn from 'classnames'
 import {Link} from "react-router-dom";
-import {ITicket} from "../../../types/questions";
+import {IQuestion } from "../../../types/questions";
 
 
 interface ITicketsProps{
-    tickets : Array<ITicket>
+    tickets : Array<IQuestion[]>
 }
 const Tickets : FC<ITicketsProps> = ({ tickets }) => {
+    console.log(tickets)
     return (
         <div className={styles.tickets}>
             <div className={styles.tickets__title}>
@@ -23,7 +24,7 @@ const Tickets : FC<ITicketsProps> = ({ tickets }) => {
                 <div className={styles.tickets__items}>
                     {
                         tickets.map( (el,index) => (
-                            <Link key={el[0].ticket_number} to={`/ticket/${index+1}`}>
+                            <Link key={index} to={`/ticket/${index+1}`}>
                                 <div
                                      className={cn(styles.tickets__item)}>{index + 1}
                                 </div>

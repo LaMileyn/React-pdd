@@ -5,22 +5,29 @@ import photoQuest from './../../assets/photos/10_9.jpg'
 import upArrow from './../../assets/icons/corner-right-up.png'
 import downArrow from './../../assets/icons/corner-right-down.png'
 import cn from 'classnames'
+import {IQuestion} from "../../types/questions";
 
-const TicketQuestionArea: FC = (props) => {
+interface IProps{
+    question : IQuestion,
+    answered : boolean,
+    correct : boolean
+}
+
+const TicketQuestionArea: FC<IProps> = ( { question, correct, answered}) => {
     const isFav = false
     const isPhoto = false
     const [showHelper,setShopHelper] = useState<boolean>(true)
     return (
         <div className={styles.question}>
             <div className={styles.question__head}>
-                <h2>Вопрос 1</h2>
+                <h2>{question.title}</h2>
                 <div className={styles.question__fav}>
                     <img src={star} alt=""/>
                 </div>
             </div>
             <div className={styles.question__image}>
                 {
-                    isPhoto
+                    question.image
                         ? <img src={photoQuest} alt=""/>
                         : (
                             <div className={styles.noImage}>
@@ -32,27 +39,32 @@ const TicketQuestionArea: FC = (props) => {
             </div>
             <div className={styles.question__title}>
                 <h3>
-                    В каком случае водитель должен выполнить экстренную остановку ?
+                    {question.question}
                 </h3>
             </div>
             <div className={styles.question__questions}>
-                <div className={styles.question__item}>
-                    <span className={styles.item__num}>1.</span>
-                    <span className={cn(styles.item__text,styles.answered,styles.correctAnswer)}>При условии недостаточной видимости</span>
-                    <span className={cn(styles.yourAnswerInCorrect)}>( Ваш ответ )</span>
-                </div>
-                <div className={styles.question__item}>
-                    <span className={styles.item__num}>2.</span>
-                    <span className={styles.item__text}>При условии недостаточной видимости</span>
-                </div>
-                <div className={styles.question__item}>
-                    <span className={styles.item__num}>3.</span>
-                    <span className={styles.item__text}>При условии недостаточной видимости</span>
-                </div>
-                <div className={styles.question__item}>
-                    <span className={styles.item__num}>4.</span>
-                    <span className={styles.item__text}>При условии недостаточной видимости</span>
-                </div>
+                {
+                    question.answers.map( (answer,index) => (
+                        <div className={styles.question__item}>
+                            <span className={styles.item__num}>{index+1}.</span>
+                            <span className={cn(styles.item__text,
+                                {
+                                    [styles.correctAnswer] : answered,
+                                    [styles.answered] : answer.answer_text === question.correct_answer
+                                }
+                                )}>
+                                { answer.answer_text }
+                            </span>
+                            {
+                                answered && !correct && <span className={cn(styles.yourAnswerInCorrect)}>( Ваш ответ )</span>
+                            }
+                            {
+                                answered && correct && <span className={cn(styles.yourAnswerCorrect)}>( Ваш ответ )</span>
+                            }
+
+                        </div>
+                    ))
+                }
 
             </div>
             <div className={styles.question__bottom}>

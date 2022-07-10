@@ -12,7 +12,7 @@ import {useAppSelector} from "../../../utils/helpers/hooks";
 
 const MainPage: FC = (props) => {
 
-    const { tickesData, topicsData, status} = useAppSelector( state => state.pdd )
+    const { ticketsData, topicsData, status} = useAppSelector( state => state.pdd )
 
     if (status === "loading") return <div>Loading..</div>
     return (
@@ -20,7 +20,7 @@ const MainPage: FC = (props) => {
             <Container>
                 <h1>ПДД 2022: Правила дорожного движения онлайн экзамен и билеты как в ГИБДД, ГАИ РФ</h1>
                 <MainBanner/>
-                <Tickets tickets={tickesData}/>
+                <Tickets tickets={ticketsData}/>
                 <div className={styles.mainPage__buttonCategorysTickets}>
                     <ButtonIcon variant={"purple"}>
                         <img src={favourite} alt=""/>
