@@ -23,7 +23,7 @@ const Tickets : FC<ITicketsProps> = ({ tickets }) => {
                 <div className={styles.tickets__items}>
                     {
                         tickets.map( (el,index) => (
-                            <Link key={index} to={`/ticket/${index+1}`}>
+                            <Link key={index} to={`/ticket/bilet/${index+1}`}>
                                 <div
                                      className={cn(styles.tickets__item)}>{index + 1}
                                 </div>

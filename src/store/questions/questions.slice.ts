@@ -26,7 +26,6 @@ export const questionsSlice = createSlice({
         initialState,
         reducers: {
             checkedAdd : (state,{ payload : { answer, question}} : PayloadAction<CheckedAddAction>) =>{
-                console.log(answer,question)
                 // @ts-ignore
                 state.checkedQuestions[question] = answer
             }

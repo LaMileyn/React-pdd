@@ -4,32 +4,33 @@ import Container from "../../../components/Container/Container";
 import clock from '../../../assets/icons/clockBlack.svg'
 import TicketQuestionArea from "../../../components/TicketQuestionArea/TicketQuestionArea";
 import Paginator from "../../../components/Paginator/Paginator";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useAppSelector} from "../../../utils/helpers/hooks";
 import {IQuestion} from "../../../types/questions";
 
 
-const TicketPage: FC = (props) => {
+interface TicketPageProps {
+    type : "exam" | "bilet" | "quest"
+}
+const TicketPage: FC<TicketPageProps> = ( { type }) => {
 
     const id = Number(useParams().id)
+    const navigate = useNavigate()
     const { ticketsData, checkedQuestions } = useAppSelector(state => state.pdd)
     const currentTicket = useMemo( () => {
         return ticketsData[id - 1]
     },[ticketsData])
     const [currentQuestionNumber, setCurrentQuestionNumber] = useState<number>(0)
-    const changeQuestionChecked = useCallback( () => {
-            if ( ( "Билет "+currentQuestionNumber ) in checkedQuestions ){
-
-            }
-    },[checkedQuestions])
 
     if (!currentTicket) return <div>Loading....</div>
     return (
         <section className={styles.ticket}>
             <Container>
                 <div className={styles.ticket__headline}>
-                    <span>Тренировочный билет {id}</span>
-                    <h1>Билет {id} ПДД 2022 решать онлайн</h1>
+                    { type === "bilet" && <h1>Билет {id} ПДД 2022 решать онлайн</h1>}
+                    { type === "exam" && <h1>Экзамен ПДД онлайн категория «B».</h1>}
+                    { type === "exam" && <h1>Тестирование по теме «Пользование внешними световыми приборами и звуковыми сигналами».</h1>}
+
                 </div>
                 <div className={styles.ticket__time}>
                     <div className={styles.ticket__timer}>
@@ -40,7 +41,7 @@ const TicketPage: FC = (props) => {
                             11:26
                         </div>
                     </div>
-                    <div className={styles.ticket__finishTicket}>
+                    <div className={styles.ticket__finishTicket} onClick={ () => navigate("/")}>
                         Завершить досрочно
                     </div>
                 </div>
@@ -53,9 +54,10 @@ const TicketPage: FC = (props) => {
                 </div>
                 <div className={styles.ticket__questions}>
                     <TicketQuestionArea
-                        answered={false}
+                        checkedQuestions={checkedQuestions}
+                        setCurrentQuestionNumber={setCurrentQuestionNumber}
                         currentQuestionNumber={currentQuestionNumber}
-                        correct={false}
+                        currentTicket={currentTicket}
                         question={currentTicket[currentQuestionNumber]}/>
                 </div>
             </Container>
