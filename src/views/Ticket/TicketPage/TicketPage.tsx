@@ -14,11 +14,11 @@ interface TicketPageProps {
 }
 const TicketPage: FC<TicketPageProps> = ( { type }) => {
 
-    const id = Number(useParams().id)
+    const { id } = useParams()
     const navigate = useNavigate()
     const { ticketsData, checkedQuestions } = useAppSelector(state => state.pdd)
     const currentTicket = useMemo( () => {
-        return ticketsData[id - 1]
+        return ticketsData[Number(id) - 1]
     },[ticketsData])
     const [currentQuestionNumber, setCurrentQuestionNumber] = useState<number>(0)
 
