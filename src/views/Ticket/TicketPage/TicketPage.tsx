@@ -1,4 +1,4 @@
-import React, {FC, useCallback, useMemo, useState} from 'react';
+import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
 import styles from './TicketPage.module.scss';
 import Container from "../../../components/Container/Container";
 import clock from '../../../assets/icons/clockBlack.svg'
@@ -7,12 +7,14 @@ import Paginator from "../../../components/Paginator/Paginator";
 import {useNavigate, useParams} from "react-router-dom";
 import {useAppSelector} from "../../../utils/helpers/hooks";
 import {IQuestion} from "../../../types/questions";
+import {getTimerTime} from "../../../utils/helpers/functions";
 
 
 interface TicketPageProps {
-    type : "exam" | "bilet" | "quest"
+    type : "exam" | "bilet" | "quest",
+    time : number
 }
-const TicketPage: FC<TicketPageProps> = ( { type }) => {
+const TicketPage: FC<TicketPageProps> = ( { type, time }) => {
 
     const { id } = useParams()
     const navigate = useNavigate()
@@ -20,7 +22,16 @@ const TicketPage: FC<TicketPageProps> = ( { type }) => {
     const currentTicket = useMemo( () => {
         return ticketsData[Number(id) - 1]
     },[ticketsData])
+    // time in seconds
+    const [timer,setTimer] = useState<number>(time * 60)
     const [currentQuestionNumber, setCurrentQuestionNumber] = useState<number>(0)
+
+    useEffect( () =>{
+        const interval = setInterval( () =>{
+            setTimer( prev => prev - 1)
+        },1000)
+        return () => clearInterval(interval)
+    },[time])
 
     if (!currentTicket) return <div>Loading....</div>
     return (
@@ -38,7 +49,7 @@ const TicketPage: FC<TicketPageProps> = ( { type }) => {
                             <img src={clock} alt=""/>
                         </div>
                         <div className={styles.timer__time}>
-                            11:26
+                            {getTimerTime(timer)}
                         </div>
                     </div>
                     <div className={styles.ticket__finishTicket} onClick={ () => navigate("/")}>

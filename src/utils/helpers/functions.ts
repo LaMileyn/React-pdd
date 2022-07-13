@@ -20,3 +20,12 @@ export const parseQuestionImageUrl = ( url : string) => {
     console.log(url.split("images/")[1])
     return url.split("images/")[1]
 }
+
+export const getTimerTime = (sec : number ) => {
+    let min : string | number = Math.floor( sec / 60);
+    let seconds : string | number = Math.floor( sec % 60 );
+    if ( min < 10 ) min = "0" + min
+    if ( seconds < 10 ) seconds = "0" + seconds
+    return `${min}:${seconds}`
+
+}
