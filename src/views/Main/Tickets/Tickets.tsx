@@ -2,8 +2,13 @@ import React, {FC} from 'react';
 import styles from './Tickets.module.scss';
 import cn from 'classnames'
 import {Link} from "react-router-dom";
+import {IQuestion } from "../../../types/questions";
 
-const Tickets : FC = (props) => {
+
+interface ITicketsProps{
+    tickets : Array<IQuestion[]>
+}
+const Tickets : FC<ITicketsProps> = ({ tickets }) => {
     return (
         <div className={styles.tickets}>
             <div className={styles.tickets__title}>
@@ -17,10 +22,11 @@ const Tickets : FC = (props) => {
                 </div>
                 <div className={styles.tickets__items}>
                     {
-                        Array(24).fill(null).map( (el,index) => (
-                            <Link to={`/ticket/${index+1}`}>
-                                <div key={el}
-                                     className={cn(styles.tickets__item)}>{index + 1}</div>
+                        tickets.map( (el,index) => (
+                            <Link key={index} to={`/ticket/bilet/${index+1}`}>
+                                <div
+                                     className={cn(styles.tickets__item)}>{index + 1}
+                                </div>
                             </Link>
 
                         ))

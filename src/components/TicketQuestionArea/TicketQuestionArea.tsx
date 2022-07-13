@@ -1,26 +1,52 @@
-import React, {FC, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import styles from './TicketQuestionArea.module.scss';
 import star from './../../assets/icons/star.png';
 import photoQuest from './../../assets/photos/10_9.jpg'
 import upArrow from './../../assets/icons/corner-right-up.png'
 import downArrow from './../../assets/icons/corner-right-down.png'
 import cn from 'classnames'
+import {ICheckedQuestions, IQuestion} from "../../types/questions";
+import {useAppDispatch} from "../../utils/helpers/hooks";
+import {checkedAdd} from "../../store/questions/questions.slice";
+import {getCorrectAnswer} from "../../utils/helpers/functions";
 
-const TicketQuestionArea: FC = (props) => {
+interface IProps{
+    question : IQuestion,
+    currentQuestionNumber : number,
+    setCurrentQuestionNumber? : ( page : number ) => void,
+    checkedQuestions : ICheckedQuestions,
+    currentTicket : IQuestion[]
+}
+
+const TicketQuestionArea: FC<IProps> = ( { question,
+                                             currentQuestionNumber, setCurrentQuestionNumber, checkedQuestions, currentTicket}) => {
     const isFav = false
     const isPhoto = false
-    const [showHelper,setShopHelper] = useState<boolean>(true)
+    const [showHelper,setShowHelper] = useState<boolean>(false)
+    useEffect( () => {
+        setShowHelper(false)
+    },[currentQuestionNumber])
+    const dispatch = useAppDispatch()
+    const answerClickHandler = ( question : string, answer : number ) =>{
+        dispatch(checkedAdd({
+            question,
+            answer
+        }))
+    }
+    // const skipButtonHandleClick = () => {
+    //     if (  )
+    // }
     return (
         <div className={styles.question}>
             <div className={styles.question__head}>
-                <h2>Вопрос 1</h2>
+                <h2>{question.title}</h2>
                 <div className={styles.question__fav}>
                     <img src={star} alt=""/>
                 </div>
             </div>
             <div className={styles.question__image}>
                 {
-                    isPhoto
+                    question.image
                         ? <img src={photoQuest} alt=""/>
                         : (
                             <div className={styles.noImage}>
@@ -32,27 +58,39 @@ const TicketQuestionArea: FC = (props) => {
             </div>
             <div className={styles.question__title}>
                 <h3>
-                    В каком случае водитель должен выполнить экстренную остановку ?
+                    {question.question}
                 </h3>
             </div>
             <div className={styles.question__questions}>
-                <div className={styles.question__item}>
-                    <span className={styles.item__num}>1.</span>
-                    <span className={cn(styles.item__text,styles.answered,styles.correctAnswer)}>При условии недостаточной видимости</span>
-                    <span className={cn(styles.yourAnswerInCorrect)}>( Ваш ответ )</span>
-                </div>
-                <div className={styles.question__item}>
-                    <span className={styles.item__num}>2.</span>
-                    <span className={styles.item__text}>При условии недостаточной видимости</span>
-                </div>
-                <div className={styles.question__item}>
-                    <span className={styles.item__num}>3.</span>
-                    <span className={styles.item__text}>При условии недостаточной видимости</span>
-                </div>
-                <div className={styles.question__item}>
-                    <span className={styles.item__num}>4.</span>
-                    <span className={styles.item__text}>При условии недостаточной видимости</span>
-                </div>
+                {
+                    question.answers.map( (answer,index) => {
+                        const correctIndex = getCorrectAnswer(currentTicket[currentQuestionNumber])
+                        const yourAnswerIsCorrect = ( index + 1 ) === correctIndex
+                        const isDone = typeof checkedQuestions["Вопрос "+(currentQuestionNumber + 1)] == "number"
+                        return (
+                        <div className={styles.question__item} key={index} onClick={
+                            () => answerClickHandler(question.title,index + 1 )}>
+                            <span className={styles.item__num}>{index+1}.</span>
+                            <span
+                                onClick={ setCurrentQuestionNumber  && ( () => setCurrentQuestionNumber(currentQuestionNumber + 1)) }
+                                className={cn(styles.item__text,
+                                {
+                                    [styles.correctAnswer] : yourAnswerIsCorrect && isDone,
+                                    [styles.answered] : isDone
+                                }
+                                )}>
+                                { answer.answer_text }
+                            </span>
+                            {
+                                ( index + 1) === Number(checkedQuestions["Вопрос "+(currentQuestionNumber + 1)]) && isDone && !yourAnswerIsCorrect && <span className={cn(styles.yourAnswerInCorrect)}>( Ваш ответ )</span>
+                            }
+                            {
+                                ( index + 1) === Number(checkedQuestions["Вопрос "+(currentQuestionNumber + 1)]) && isDone && yourAnswerIsCorrect && <span className={cn(styles.yourAnswerCorrect)}>( Ваш ответ )</span>
+                            }
+
+                        </div>
+                    )})
+                }
 
             </div>
             <div className={styles.question__bottom}>
@@ -60,11 +98,10 @@ const TicketQuestionArea: FC = (props) => {
                     showHelper && (
                         <div className={styles.extraBlock}>
                             <div className={styles.extraBlock__answerTitle}>
-                                Правильный ответ: 3
+                                {question.correct_answer}
                             </div>
                             <div className={styles.extraBlock__answerText}>
-                                «Недостаточная видимость» – видимость дороги менее 300м в условиях тумана, дождя, снегопада и тому
-                                подобного, а также в сумерки. Пункт 1.2 термин «Недостаточная видимость».
+                                {question.answer_tip}
                             </div>
                         </div>
                     )
@@ -76,19 +113,21 @@ const TicketQuestionArea: FC = (props) => {
                             showHelper
                                 ? (
                                     <>
-                                        <span onClick={ () => setShopHelper(false)}>Скрыть подсказку</span>
+                                        <span onClick={ () => setShowHelper(false)}>Скрыть подсказку</span>
                                         <img src={upArrow} alt=""/>
                                     </>
                                 )
                                 : (
                                     <>
-                                        <span onClick={ () => setShopHelper(true)}>Показать подсказку</span>
+                                        <span onClick={ () => setShowHelper(true)}>Показать подсказку</span>
                                         <img src={downArrow} alt=""/>
                                     </>
                                 )
                         }
 
                     </div>
+                    {}
+
                     <span className={styles.skip}>
                         Пропустить
                     </span>

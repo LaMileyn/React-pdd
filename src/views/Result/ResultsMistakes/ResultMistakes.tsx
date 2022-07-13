@@ -25,7 +25,7 @@ const ResultMistakes: FC = (props) => {
                                     Array(5).fill(null)
                                         .map((el, index) => (
                                             <div key={index} className={styles.mistake__item}>
-                                                <TicketQuestionArea/>
+                                                {/*<TicketQuestionArea question={el}/>*/}
                                             </div>
                                         ))
                                 }
