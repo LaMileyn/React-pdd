@@ -16,3 +16,7 @@ export const checkNextAnswerStep = (checkedQuestions : ICheckedQuestions, curren
     // без учета ( -1 ) от числа для индекса страницы
     return closestRight ? closestRight : ( furthestLeft ? furthestLeft : null )
 }
+export const parseQuestionImageUrl = ( url : string) => {
+    console.log(url.split("images/")[1])
+    return url.split("images/")[1]
+}

@@ -8,7 +8,8 @@ import cn from 'classnames'
 import {ICheckedQuestions, IQuestion} from "../../types/questions";
 import {useAppDispatch} from "../../utils/helpers/hooks";
 import {checkedAdd} from "../../store/questions/questions.slice";
-import {checkNextAnswerStep, getCorrectAnswer} from "../../utils/helpers/functions";
+import {checkNextAnswerStep, getCorrectAnswer, parseQuestionImageUrl} from "../../utils/helpers/functions";
+
 
 interface IProps {
     question: IQuestion,
@@ -47,9 +48,9 @@ const TicketQuestionArea: FC<IProps> = ({
             }
         }
     }
-    // const skipButtonHandleClick = () => {
-    //     if (  )
-    // }
+
+
+
     return (
         <div className={styles.question}>
             <div className={styles.question__head}>
@@ -59,16 +60,7 @@ const TicketQuestionArea: FC<IProps> = ({
                 </div>
             </div>
             <div className={styles.question__image}>
-                {
-                    question.image
-                        ? <img src={photoQuest} alt=""/>
-                        : (
-                            <div className={styles.noImage}>
-                                Вопрос без изображения
-                            </div>
-                        )
-                }
-
+                <img src={require(`./../../assets/ticketPhotos/${parseQuestionImageUrl(question.image)}`)} alt=""/>
             </div>
             <div className={styles.question__title}>
                 <h3>
