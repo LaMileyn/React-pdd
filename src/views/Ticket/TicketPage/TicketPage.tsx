@@ -39,6 +39,7 @@ const TicketPage: FC<TicketPageProps> = ( { type, time }) => {
     },[time,timer])
 
     const finishTicketHandler = () =>{
+        // console.log(checkedQuestions)
         const isPassed = Object.values(checkedQuestions).reduce( (acc,curr) => curr.isCorrect ? acc : acc+=1,0) <= currentTicket.length - 2
         const resId = Math.ceil( new Date().getSeconds() * Math.random() )
         const newResult : IResult = {

@@ -5,25 +5,18 @@ import {ICheckedQuestions} from "../../../types/questions";
 import {Link} from "react-router-dom";
 
 interface ResultBannerProps {
-    checkedQuestions: ICheckedQuestions,
+    passed : boolean,
+    questionsCount : number,
+    correctQuestions : number,
     timeFinished: string,
     ticketId: string
 }
 
 const ResultBanner: FC<ResultBannerProps> = ({
-                                                 checkedQuestions,
-                                                 timeFinished, ticketId
+                                                 correctQuestions,passed,
+                                                 timeFinished, ticketId,questionsCount
                                              }) => {
 
-    const [passed, correctQuestions, questions] = useMemo(() => {
-        // console.log(checkedQuestions)
-        const questions = Object.values(checkedQuestions)
-        const correctQuestions = questions
-            .reduce((acc, curr) => curr.isCorrect ? acc + 1 : acc, 0);
-        const passed = correctQuestions >= questions.length
-        return [passed, correctQuestions, questions]
-    }, [checkedQuestions])
-    console.log(passed)
     return (
         <div className={styles.banner}>
             <div className={styles.banner__top}>
@@ -36,14 +29,14 @@ const ResultBanner: FC<ResultBannerProps> = ({
             <div className={styles.banner__middle}>
                 <div className={styles.text}>
                     {
-                        correctQuestions !== questions.length && (
+                        correctQuestions !== questionsCount && (
                             <div className={styles.wrongAnswersCount}>
-                                Правильных ответов {correctQuestions} из {questions.length}
+                                Правильных ответов {correctQuestions} из {questionsCount}
                             </div>
                         )
                     }
                     {
-                        correctQuestions === questions.length && (
+                        correctQuestions === questionsCount && (
                             <div className={styles.wrongAnswersCount}>
                                 Вы правильно ответили на все вопросы
                             </div>

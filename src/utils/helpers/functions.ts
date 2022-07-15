@@ -3,6 +3,7 @@ import {ICheckedQuestions, IQuestion} from "../../types/questions";
 export const getCorrectAnswer = ( quest : IQuestion) => Number(quest['correct_answer'].split(": ")[1]);
 
 export const checkNextAnswerStep = (checkedQuestions : ICheckedQuestions, currentIndex : number, questionsCount : number) => {
+
     const arr = Array(questionsCount).fill(null).map( (el,index) => index + 1)
     const badNumbers = Object.values(checkedQuestions).map( el => Number(el.questionIndex))
     const closestRight = arr.find( numb => ( numb > currentIndex + 1 ) && ( badNumbers.indexOf(numb) === -1 ) )
@@ -21,7 +22,6 @@ export const parseQuestionImageUrl = ( url : string) => {
 }
 
 export const getTimerTime = (sec : number ) => {
-    console.log(sec)
     let min : string | number = Math.floor( sec / 60);
     let seconds : string | number = Math.floor( sec % 60 );
     if ( min < 10 ) min = "0" + min

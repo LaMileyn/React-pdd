@@ -12,7 +12,7 @@ const ResultPage: FC = (props) => {
 
     const { resultId } = useParams()
     const { ticketsData } = useAppSelector(state => state.pdd)
-    const [data,setData] = useState<IResult | null>(null)
+    const [data,setData] = useState<IResult>()
 
     useEffect( () => {
         const localData = JSON.parse(localStorage.getItem("results")!)
@@ -20,7 +20,16 @@ const ResultPage: FC = (props) => {
         console.log(localData[Number(resultId)])
     },[resultId])
 
-    if ( !data ) return <div>Loading..../,.</div>
+    const [passed, correctQuestions, questions] = useMemo(() => {
+        if ( !data ) return [];
+        const questions = Object.values(data.checkedQuestions)
+        const correctQuestions = questions
+            .reduce((acc, curr) => curr.isCorrect ? acc + 1 : acc, 0);
+        const passed = correctQuestions >= questions.length
+        return [passed, correctQuestions, questions]
+    }, [resultId,data])
+
+    if ( !data ) return <div>Loading.....</div>
     return (
         <section className={styles.resultPage}>
             <Container>
@@ -28,11 +37,17 @@ const ResultPage: FC = (props) => {
                 <Paginator currentTicket={data.currentTicket}
                            checkedQuestions={data.checkedQuestions}
                 />
-                <ResultBanner checkedQuestions={data.checkedQuestions}
+                <ResultBanner passed={passed!}
+                              correctQuestions={correctQuestions!}
+                              questionsCount={questions!.length}
                               timeFinished={data.timeFinished}
                               ticketId={data.currentTicket[0].ticket_number.split(" ")[1]}
                 />
-                <ResultMistakes/>
+                <ResultMistakes passed={passed!}
+                                checkedQuestions={data.checkedQuestions}
+                                currentTicket={data.currentTicket}
+                                correctQuestions={correctQuestions!}
+                                questionsCount={questions!.length}/>
             </Container>
         </section>
     );

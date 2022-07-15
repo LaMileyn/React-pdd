@@ -14,11 +14,11 @@ import {useNavigate} from "react-router-dom";
 
 interface IProps {
     question: IQuestion,
-    currentQuestionNumber: number,
-    setCurrentQuestionNumber?: (page: number) => void,
     checkedQuestions: ICheckedQuestions,
     currentTicket: IQuestion[],
-    finishTicketHandler : () => void
+    setCurrentQuestionNumber?: (page: number) => void,
+    currentQuestionNumber: number,
+    finishTicketHandler? : () => void
 }
 
 const TicketQuestionArea: FC<IProps> = ({
@@ -41,6 +41,7 @@ const TicketQuestionArea: FC<IProps> = ({
     const dispatch = useAppDispatch()
     const answerClickHandler = (questionIndex: string, id: number, answer: number, isCorrect: boolean, isDone: boolean) => {
         if (!isDone) {
+            console.log("new item")
             dispatch(checkedAdd({
                 id,
                 questionIndex,
@@ -52,11 +53,14 @@ const TicketQuestionArea: FC<IProps> = ({
         }
     }
     const changeQuestionsHandler = () => {
-        let resCheckNext = checkNextAnswerStep(checkedQuestions, currentQuestionNumber, currentTicket.length)
-        if (resCheckNext) {
-            setCurrentQuestionNumber!(resCheckNext - 1)
-        } else {
-            finishTicketHandler()
+        if ( finishTicketHandler ){
+            let resCheckNext = checkNextAnswerStep(checkedQuestions, currentQuestionNumber, currentTicket.length)
+            if (resCheckNext) {
+                setCurrentQuestionNumber!(resCheckNext - 1)
+            } else {
+                console.log(checkedQuestions)
+                finishTicketHandler()
+            }
         }
     }
 
