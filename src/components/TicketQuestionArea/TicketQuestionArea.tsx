@@ -5,9 +5,9 @@ import photoQuest from './../../assets/photos/10_9.jpg'
 import upArrow from './../../assets/icons/corner-right-up.png'
 import downArrow from './../../assets/icons/corner-right-down.png'
 import cn from 'classnames'
-import {ICheckedQuestions, IQuestion} from "../../types/questions";
+import {ICheckedQuestions, IQuestion, IResult} from "../../types/questions";
 import {useAppDispatch} from "../../utils/helpers/hooks";
-import {checkedAdd} from "../../store/questions/questions.slice";
+import {checkedAdd, checkedDelete} from "../../store/questions/questions.slice";
 import {checkNextAnswerStep, getCorrectAnswer, parseQuestionImageUrl} from "../../utils/helpers/functions";
 import {useNavigate} from "react-router-dom";
 
@@ -17,7 +17,8 @@ interface IProps {
     currentQuestionNumber: number,
     setCurrentQuestionNumber?: (page: number) => void,
     checkedQuestions: ICheckedQuestions,
-    currentTicket: IQuestion[]
+    currentTicket: IQuestion[],
+    finishTicketHandler : () => void
 }
 
 const TicketQuestionArea: FC<IProps> = ({
@@ -25,14 +26,18 @@ const TicketQuestionArea: FC<IProps> = ({
                                             currentQuestionNumber,
                                             setCurrentQuestionNumber,
                                             checkedQuestions,
-                                            currentTicket
+                                            currentTicket,
+                                            finishTicketHandler
                                         }) => {
 
     const navigate = useNavigate()
     const [showHelper, setShowHelper] = useState<boolean>(false)
     useEffect(() => {
-        setShowHelper(false)
-    }, [currentQuestionNumber])
+        if (!setCurrentQuestionNumber){
+            setShowHelper(true)
+        }else setShowHelper(false)
+
+    }, [checkedQuestions])
     const dispatch = useAppDispatch()
     const answerClickHandler = (questionIndex: string, id: number, answer: number, isCorrect: boolean, isDone: boolean) => {
         if (!isDone) {
@@ -51,7 +56,7 @@ const TicketQuestionArea: FC<IProps> = ({
         if (resCheckNext) {
             setCurrentQuestionNumber!(resCheckNext - 1)
         } else {
-            navigate("result")
+            finishTicketHandler()
         }
     }
 

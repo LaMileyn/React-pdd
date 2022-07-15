@@ -33,6 +33,9 @@ export const questionsSlice = createSlice({
                     isCorrect,
                     questionIndex
                 }
+            },
+            checkedDelete : (state) => {
+                state.checkedQuestions = {}
             }
         },
         extraReducers: builder => {
@@ -71,5 +74,5 @@ export const questionsSlice = createSlice({
     }
 )
 
-export const { checkedAdd } = questionsSlice.actions
+export const { checkedAdd, checkedDelete } = questionsSlice.actions
 export default questionsSlice.reducer

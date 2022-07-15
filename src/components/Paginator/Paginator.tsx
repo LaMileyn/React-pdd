@@ -15,10 +15,6 @@ const Paginator: FC<PaginatorProps> = memo(({
                                            setCurrentQuestionNumber, currentQuestionNumber,
                                            checkedQuestions, currentTicket
                                        }) => {
-    // const pages = useMemo(() => {
-    //     return Array(currentTicket.length).fill(null).map((el, index) => index + 1)
-    // }, [currentTicket])
-
     return (
         <div className={styles.paginator}>
             {
@@ -32,6 +28,7 @@ const Paginator: FC<PaginatorProps> = memo(({
                                 [styles.wrong]: typeof checkedQuestions[question.id] == "object" && !isCorrect,
                                 [styles.correct]: typeof checkedQuestions[question.id] == "object" && isCorrect,
                                 [styles.active]: currentQuestionNumber === index,
+                                [styles.inactive]: !setCurrentQuestionNumber
                             })}>
                             {index+1}
                         </div>

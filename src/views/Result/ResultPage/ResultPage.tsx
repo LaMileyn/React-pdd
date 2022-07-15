@@ -1,4 +1,4 @@
-import React, {FC, useMemo} from 'react';
+import React, {FC, useEffect, useMemo, useState} from 'react';
 import styles from './ResultPage.module.scss';
 import Paginator from "../../../components/Paginator/Paginator";
 import Container from "../../../components/Container/Container";
@@ -6,23 +6,32 @@ import ResultBanner from "../ResultBanner/ResultBanner";
 import ResultMistakes from "../ResultsMistakes/ResultMistakes";
 import {useParams} from "react-router-dom";
 import {useAppSelector} from "../../../utils/helpers/hooks";
+import {IResult} from "../../../types/questions";
 
 const ResultPage: FC = (props) => {
 
-    const id = Number(useParams().id)
-    const { ticketsData, checkedQuestions } = useAppSelector(state => state.pdd)
-    const currentTicket = useMemo( () => {
-        return ticketsData[id - 1]
-    },[ticketsData])
-    const withErrors = true
+    const { resultId } = useParams()
+    const { ticketsData } = useAppSelector(state => state.pdd)
+    const [data,setData] = useState<IResult | null>(null)
+
+    useEffect( () => {
+        const localData = JSON.parse(localStorage.getItem("results")!)
+        setData(localData[Number(resultId)])
+        console.log(localData[Number(resultId)])
+    },[resultId])
+
+    if ( !data ) return <div>Loading..../,.</div>
     return (
         <section className={styles.resultPage}>
             <Container>
-                <h1>Билет 21. Результаты тренировки</h1>
-                <Paginator currentTicket={currentTicket}
-                           checkedQuestions={checkedQuestions}
+                <h1>{data.topic}. Результаты тренировки</h1>
+                <Paginator currentTicket={data.currentTicket}
+                           checkedQuestions={data.checkedQuestions}
                 />
-                <ResultBanner/>
+                <ResultBanner checkedQuestions={data.checkedQuestions}
+                              timeFinished={data.timeFinished}
+                              ticketId={data.currentTicket[0].ticket_number.split(" ")[1]}
+                />
                 <ResultMistakes/>
             </Container>
         </section>

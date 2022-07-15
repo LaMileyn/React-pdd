@@ -21,7 +21,14 @@ export interface ICheckedQuestions {
         answer  : number,
         questionIndex : string,
     }
-    // [key : string] : boolean
 }
-
+export interface IResult {
+    id : number,
+    ticketType : "exam" | "ticket" | "theme",
+    checkedQuestions : ICheckedQuestions,
+    timeFinished : string,
+    topic : string,
+    isPassed : boolean,
+    currentTicket : IQuestion[]
+}
 

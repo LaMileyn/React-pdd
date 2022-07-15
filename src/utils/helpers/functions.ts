@@ -21,6 +21,7 @@ export const parseQuestionImageUrl = ( url : string) => {
 }
 
 export const getTimerTime = (sec : number ) => {
+    console.log(sec)
     let min : string | number = Math.floor( sec / 60);
     let seconds : string | number = Math.floor( sec % 60 );
     if ( min < 10 ) min = "0" + min

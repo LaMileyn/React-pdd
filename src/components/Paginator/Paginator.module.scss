@@ -17,6 +17,9 @@
   &:hover{
     background-color: var(--grey-300);
   }
+  &.inactive{
+    cursor: auto;
+  }
   &.active{
     background-color: var(--grey-300);
   }
