@@ -1,4 +1,4 @@
-import React, {FC, useMemo} from 'react';
+import React, {FC, memo, useMemo} from 'react';
 import styles from './Paginator.module.scss';
 import cn from 'classnames';
 import {ICheckedQuestions, IQuestion} from "../../types/questions";
@@ -11,34 +11,35 @@ interface PaginatorProps {
     checkedQuestions: ICheckedQuestions
 }
 
-const Paginator: FC<PaginatorProps> = ({
+const Paginator: FC<PaginatorProps> = memo(({
                                            setCurrentQuestionNumber, currentQuestionNumber,
                                            checkedQuestions, currentTicket
                                        }) => {
-    const pages = useMemo(() => {
-        return Array(currentTicket.length).fill(null).map((el, index) => index + 1)
-    }, [currentTicket])
+    // const pages = useMemo(() => {
+    //     return Array(currentTicket.length).fill(null).map((el, index) => index + 1)
+    // }, [currentTicket])
 
     return (
         <div className={styles.paginator}>
             {
-                pages.map((page, index) => {
-                    const isCorrect = Number(checkedQuestions["Вопрос " + (index + 1)]) == getCorrectAnswer(currentTicket[index])
+                currentTicket.map((question, index) => {
+                    const isCorrect = checkedQuestions[question.id]?.answer === getCorrectAnswer(currentTicket[index])
+                    console.log(question.id)
                     return (
                         <div
-                            onClick={setCurrentQuestionNumber && (() => setCurrentQuestionNumber(page - 1))}
+                            onClick={setCurrentQuestionNumber && (() => setCurrentQuestionNumber(index))}
                             className={cn(styles.page, {
-                                [styles.wrong]: typeof checkedQuestions["Вопрос " + (index + 1)] == "number" && !isCorrect,
-                                [styles.correct]: typeof checkedQuestions["Вопрос " + (index + 1)] == "number" && isCorrect,
+                                [styles.wrong]: typeof checkedQuestions[question.id] == "object" && !isCorrect,
+                                [styles.correct]: typeof checkedQuestions[question.id] == "object" && isCorrect,
                                 [styles.active]: currentQuestionNumber === index,
                             })}>
-                            {page}
+                            {index+1}
                         </div>
                     )
                 })
             }
         </div>
     );
-}
+})
 
 export default Paginator;

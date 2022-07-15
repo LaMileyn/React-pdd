@@ -24,7 +24,9 @@ const App = () => {
                     <Route path="ticket/:id" element={<TicketPage time={20} type={"bilet"}/>}/>
                     <Route path="exam" element={<TicketPage time={20} type={"exam"}/>}/>
                     <Route path="themes/:id" element={<TicketPage time={15} type={"quest"}/>}/>
-                    <Route path="ticket/bilet/:id/result" element={<ResultPage />}/>
+                    <Route path="ticket/:id/result" element={<ResultPage />}/>
+                    <Route path="exam/result" element={<ResultPage />}/>
+                    <Route path="themes/:id/result" element={<ResultPage />}/>
                 </Route>
                 <Route path="*" element={<div>404 - Страница не найдена</div>}/>
             </Routes>

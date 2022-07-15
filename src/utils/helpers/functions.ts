@@ -17,7 +17,6 @@ export const checkNextAnswerStep = (checkedQuestions : ICheckedQuestions, curren
     return closestRight ? closestRight : ( furthestLeft ? furthestLeft : null )
 }
 export const parseQuestionImageUrl = ( url : string) => {
-    console.log(url.split("images/")[1])
     return url.split("images/")[1]
 }
 

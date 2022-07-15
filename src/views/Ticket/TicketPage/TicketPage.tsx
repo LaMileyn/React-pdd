@@ -30,7 +30,7 @@ const TicketPage: FC<TicketPageProps> = ( { type, time }) => {
         const interval = setInterval( () =>{
 
             if ( timer === 1 ) {
-                return navigate(`/ticket/bilet/${id}/result`)
+                return navigate(`/ticket/${id}/result`)
             } else setTimer( prev => prev - 1)
 
         },1000)

@@ -33,11 +33,13 @@ const TicketQuestionArea: FC<IProps> = ({
         setShowHelper(false)
     }, [currentQuestionNumber])
     const dispatch = useAppDispatch()
-    const answerClickHandler = (question: string, answer: number, isDone: boolean) => {
+    const answerClickHandler = (questionIndex : string,id: number, answer: number, isCorrect : boolean, isDone: boolean) => {
         if (!isDone) {
             dispatch(checkedAdd({
-                question,
-                answer
+                id,
+                questionIndex,
+                answer,
+                isCorrect
             }))
             // последний ответ
             let resCheckNext = checkNextAnswerStep(checkedQuestions,currentQuestionNumber,currentTicket.length)
@@ -75,12 +77,12 @@ const TicketQuestionArea: FC<IProps> = ({
                         // нахождение правильного ответа в списке ответов - подсветка
                         const isCorrect = (index + 1) === correctAnswer
                         // ответили ли мы ( кликнули ли мы на ответ )
-                        const isDone = typeof checkedQuestions["Вопрос " + (currentQuestionNumber + 1)] == "number";
+                        const isDone = typeof checkedQuestions[question.id] == "object";
                         // нахождение того ответа по которому мы кликнули для  ( ваш ответ )
-                        const isClickedCurrentAnswer = (index + 1) === Number(checkedQuestions["Вопрос " + (currentQuestionNumber + 1)])
+                        const isClickedCurrentAnswer = (index + 1) === checkedQuestions[question.id]?.answer
                         return (
                             <div className={styles.question__item} key={index} onClick={
-                                () => answerClickHandler(question.title, index + 1, isDone)}>
+                                () => answerClickHandler(question.title.split(" ")[1],question.id, index + 1, (index + 1) === correctAnswer , isDone)}>
                                 <span className={styles.item__num}>{index + 1}.</span>
                                 <span className={cn(styles.item__text,
                                     {

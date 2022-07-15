@@ -1,6 +1,6 @@
 export interface IQuestion {
     [key: number] : any,
-    // id : number,
+    id : number,
     title : string,
     ticket_number : string,
     image : string,
@@ -16,7 +16,11 @@ export interface IAnswer {
 }
 
 export interface ICheckedQuestions {
-    [key : string] : string
+    [key : string] : {
+        isCorrect : boolean,
+        answer  : number
+    }
+    // [key : string] : boolean
 }
 
 

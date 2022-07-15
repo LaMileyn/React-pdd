@@ -17,17 +17,21 @@ const initialState: QuestionsData = {
     status: "loaded"
 }
 interface CheckedAddAction {
-    question : string,
-    answer : number
+    id : number,
+    questionIndex : string
+    answer : number,
+    isCorrect : boolean
 }
 
 export const questionsSlice = createSlice({
         name: "questions",
         initialState,
         reducers: {
-            checkedAdd : (state,{ payload : { answer, question}} : PayloadAction<CheckedAddAction>) =>{
-                // @ts-ignore
-                state.checkedQuestions[question] = answer
+            checkedAdd : (state,{ payload : { answer, id, isCorrect}} : PayloadAction<CheckedAddAction>) =>{
+                state.checkedQuestions[id] = {
+                    answer,
+                    isCorrect
+                }
             }
         },
         extraReducers: builder => {
@@ -38,8 +42,8 @@ export const questionsSlice = createSlice({
                 state.status = "loaded"
                 const tickets: any = {};
                 const topics : any = {};
-                const data = payload!.map( el => ( {...el, id : ( Math.random() * new Date().getSeconds() )} ))
-                payload!.forEach(question => {
+                const data = payload!.map( el => ( {...el, id : Number(el.ticket_number.split(" ")[1]) + Number(el.title.split(" ")[1])} ))
+                data!.forEach(question => {
                     if (tickets[question.ticket_number]) {
                         tickets[question.ticket_number].push(question)
                     } else {
@@ -47,7 +51,7 @@ export const questionsSlice = createSlice({
                         tickets[question.ticket_number].push(question)
                     }
                 })
-                payload!.forEach(question => {
+                data!.forEach(question => {
                     if (topics[question.topic]){
                         topics[question.topic].push(question)
                     }else{
