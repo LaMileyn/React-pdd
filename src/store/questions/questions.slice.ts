@@ -38,6 +38,7 @@ export const questionsSlice = createSlice({
                 state.status = "loaded"
                 const tickets: any = {};
                 const topics : any = {};
+                const data = payload!.map( el => ( {...el, id : ( Math.random() * new Date().getSeconds() )} ))
                 payload!.forEach(question => {
                     if (tickets[question.ticket_number]) {
                         tickets[question.ticket_number].push(question)
@@ -60,7 +61,6 @@ export const questionsSlice = createSlice({
             })
             builder.addCase(fetchPdd.rejected, (state, {payload}) => {
                 state.status = "loaded"
-                console.log('rejected')
             })
         }
     }

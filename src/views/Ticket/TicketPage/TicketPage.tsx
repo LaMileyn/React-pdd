@@ -28,10 +28,15 @@ const TicketPage: FC<TicketPageProps> = ( { type, time }) => {
 
     useEffect( () =>{
         const interval = setInterval( () =>{
-            setTimer( prev => prev - 1)
+
+            if ( timer === 1 ) {
+                return navigate(`/ticket/bilet/${id}/result`)
+            } else setTimer( prev => prev - 1)
+
         },1000)
         return () => clearInterval(interval)
-    },[time])
+    },[time,timer])
+
 
     if (!currentTicket) return <div>Loading....</div>
     return (

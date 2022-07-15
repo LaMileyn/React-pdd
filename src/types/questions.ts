@@ -1,5 +1,6 @@
 export interface IQuestion {
     [key: number] : any,
+    // id : number,
     title : string,
     ticket_number : string,
     image : string,

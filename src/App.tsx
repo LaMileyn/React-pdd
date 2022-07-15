@@ -21,10 +21,10 @@ const App = () => {
             <Routes>
                 <Route path="/" element={<MainLayout/>}>
                     <Route index element={<MainPage/>}/>
-                    <Route path="ticket/bilet/:id" element={<TicketPage time={20} type={"bilet"}/>}/>
-                    <Route path="ticket/exam/" element={<TicketPage time={20} type={"exam"}/>}/>
-                    <Route path="ticket/quest/:id" element={<TicketPage time={15} type={"quest"}/>}/>
-                    <Route path="ticket/:id/result" element={<ResultPage />}/>
+                    <Route path="ticket/:id" element={<TicketPage time={20} type={"bilet"}/>}/>
+                    <Route path="exam" element={<TicketPage time={20} type={"exam"}/>}/>
+                    <Route path="themes/:id" element={<TicketPage time={15} type={"quest"}/>}/>
+                    <Route path="ticket/bilet/:id/result" element={<ResultPage />}/>
                 </Route>
                 <Route path="*" element={<div>404 - Страница не найдена</div>}/>
             </Routes>
