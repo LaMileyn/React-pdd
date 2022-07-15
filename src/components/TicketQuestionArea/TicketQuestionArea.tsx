@@ -9,6 +9,7 @@ import {ICheckedQuestions, IQuestion} from "../../types/questions";
 import {useAppDispatch} from "../../utils/helpers/hooks";
 import {checkedAdd} from "../../store/questions/questions.slice";
 import {checkNextAnswerStep, getCorrectAnswer, parseQuestionImageUrl} from "../../utils/helpers/functions";
+import {useNavigate} from "react-router-dom";
 
 
 interface IProps {
@@ -26,14 +27,14 @@ const TicketQuestionArea: FC<IProps> = ({
                                             checkedQuestions,
                                             currentTicket
                                         }) => {
-    const isFav = false
-    const isPhoto = false
+
+    const navigate = useNavigate()
     const [showHelper, setShowHelper] = useState<boolean>(false)
     useEffect(() => {
         setShowHelper(false)
     }, [currentQuestionNumber])
     const dispatch = useAppDispatch()
-    const answerClickHandler = (questionIndex : string,id: number, answer: number, isCorrect : boolean, isDone: boolean) => {
+    const answerClickHandler = (questionIndex: string, id: number, answer: number, isCorrect: boolean, isDone: boolean) => {
         if (!isDone) {
             dispatch(checkedAdd({
                 id,
@@ -42,15 +43,17 @@ const TicketQuestionArea: FC<IProps> = ({
                 isCorrect
             }))
             // последний ответ
-            let resCheckNext = checkNextAnswerStep(checkedQuestions,currentQuestionNumber,currentTicket.length)
-            if(resCheckNext){
-                setCurrentQuestionNumber!(resCheckNext - 1)
-            }else{
-                console.log("КОНЕЦ")
-            }
+            changeQuestionsHandler()
         }
     }
-
+    const changeQuestionsHandler = () => {
+        let resCheckNext = checkNextAnswerStep(checkedQuestions, currentQuestionNumber, currentTicket.length)
+        if (resCheckNext) {
+            setCurrentQuestionNumber!(resCheckNext - 1)
+        } else {
+            navigate("result")
+        }
+    }
 
 
     return (
@@ -82,7 +85,7 @@ const TicketQuestionArea: FC<IProps> = ({
                         const isClickedCurrentAnswer = (index + 1) === checkedQuestions[question.id]?.answer
                         return (
                             <div className={styles.question__item} key={index} onClick={
-                                () => answerClickHandler(question.title.split(" ")[1],question.id, index + 1, (index + 1) === correctAnswer , isDone)}>
+                                () => answerClickHandler(question.title.split(" ")[1], question.id, index + 1, (index + 1) === correctAnswer, isDone)}>
                                 <span className={styles.item__num}>{index + 1}.</span>
                                 <span className={cn(styles.item__text,
                                     {
@@ -142,11 +145,17 @@ const TicketQuestionArea: FC<IProps> = ({
                         }
 
                     </div>
-                    {}
+                    {
+                        Object.keys(checkedQuestions).length !== currentTicket.length - 1 && (
+                            (
+                                <span className={styles.skip} onClick={changeQuestionsHandler}>
+                                Пропустить
+                            </span>
+                            )
+                        )
+                    }
 
-                    <span className={styles.skip}>
-                        Пропустить
-                    </span>
+
                 </div>
             </div>
 

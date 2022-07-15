@@ -27,10 +27,11 @@ export const questionsSlice = createSlice({
         name: "questions",
         initialState,
         reducers: {
-            checkedAdd : (state,{ payload : { answer, id, isCorrect}} : PayloadAction<CheckedAddAction>) =>{
+            checkedAdd : (state,{ payload : { answer, id, isCorrect, questionIndex}} : PayloadAction<CheckedAddAction>) =>{
                 state.checkedQuestions[id] = {
                     answer,
-                    isCorrect
+                    isCorrect,
+                    questionIndex
                 }
             }
         },

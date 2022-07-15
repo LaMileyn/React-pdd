@@ -18,7 +18,8 @@ export interface IAnswer {
 export interface ICheckedQuestions {
     [key : string] : {
         isCorrect : boolean,
-        answer  : number
+        answer  : number,
+        questionIndex : string,
     }
     // [key : string] : boolean
 }
