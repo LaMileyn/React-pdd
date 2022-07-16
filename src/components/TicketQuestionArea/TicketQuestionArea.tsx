@@ -5,37 +5,69 @@ import photoQuest from './../../assets/photos/10_9.jpg'
 import upArrow from './../../assets/icons/corner-right-up.png'
 import downArrow from './../../assets/icons/corner-right-down.png'
 import cn from 'classnames'
-import {ICheckedQuestions, IQuestion} from "../../types/questions";
+import {ICheckedQuestions, IQuestion, IResult} from "../../types/questions";
 import {useAppDispatch} from "../../utils/helpers/hooks";
-import {checkedAdd} from "../../store/questions/questions.slice";
-import {getCorrectAnswer} from "../../utils/helpers/functions";
+import {checkedAdd, checkedDelete} from "../../store/questions/questions.slice";
+import {checkNextAnswerStep, getCorrectAnswer, parseQuestionImageUrl} from "../../utils/helpers/functions";
+import {useNavigate} from "react-router-dom";
 
-interface IProps{
-    question : IQuestion,
-    currentQuestionNumber : number,
-    setCurrentQuestionNumber? : ( page : number ) => void,
-    checkedQuestions : ICheckedQuestions,
-    currentTicket : IQuestion[]
+
+interface IProps {
+    question: IQuestion,
+    checkedQuestions: ICheckedQuestions,
+    currentTicket: IQuestion[],
+    setCurrentQuestionNumber?: (page: number) => void,
+    currentQuestionNumber: number,
+    finishTicketHandler? : () => void
 }
 
-const TicketQuestionArea: FC<IProps> = ( { question,
-                                             currentQuestionNumber, setCurrentQuestionNumber, checkedQuestions, currentTicket}) => {
-    const isFav = false
-    const isPhoto = false
-    const [showHelper,setShowHelper] = useState<boolean>(false)
-    useEffect( () => {
-        setShowHelper(false)
-    },[currentQuestionNumber])
+const TicketQuestionArea: FC<IProps> = ({
+                                            question,
+                                            currentQuestionNumber,
+                                            setCurrentQuestionNumber,
+                                            checkedQuestions,
+                                            currentTicket,
+                                            finishTicketHandler
+                                        }) => {
+
+    const navigate = useNavigate()
+    const [showHelper, setShowHelper] = useState<boolean>(false)
+    useEffect(() => {
+        if (!setCurrentQuestionNumber){
+            setShowHelper(true)
+        }else setShowHelper(false)
+
+    }, [checkedQuestions])
     const dispatch = useAppDispatch()
-    const answerClickHandler = ( question : string, answer : number ) =>{
-        dispatch(checkedAdd({
-            question,
-            answer
-        }))
+    const answerClickHandler = (questionIndex: string, id: number, answer: number, isCorrect: boolean, isDone: boolean) => {
+        if (!isDone) {
+            dispatch(checkedAdd({
+                id,
+                questionIndex,
+                answer,
+                isCorrect
+            }))
+            // последний ответ
+            changeQuestionsHandler()
+        }
     }
-    // const skipButtonHandleClick = () => {
-    //     if (  )
-    // }
+    const changeQuestionsHandler = () => {
+        if ( finishTicketHandler ){
+            let resCheckNext = checkNextAnswerStep(checkedQuestions, currentQuestionNumber, currentTicket.length)
+            if (resCheckNext) {
+                setCurrentQuestionNumber!(resCheckNext - 1)
+            }
+        }
+    }
+    useEffect( () =>{
+        if ( finishTicketHandler){
+            if (Object.values(checkedQuestions).length === currentTicket.length){
+                finishTicketHandler()
+            }
+        }
+    },[checkedQuestions])
+
+
     return (
         <div className={styles.question}>
             <div className={styles.question__head}>
@@ -45,16 +77,7 @@ const TicketQuestionArea: FC<IProps> = ( { question,
                 </div>
             </div>
             <div className={styles.question__image}>
-                {
-                    question.image
-                        ? <img src={photoQuest} alt=""/>
-                        : (
-                            <div className={styles.noImage}>
-                                Вопрос без изображения
-                            </div>
-                        )
-                }
-
+                <img src={require(`./../../assets/ticketPhotos/${parseQuestionImageUrl(question.image)}`)} alt=""/>
             </div>
             <div className={styles.question__title}>
                 <h3>
@@ -63,33 +86,41 @@ const TicketQuestionArea: FC<IProps> = ( { question,
             </div>
             <div className={styles.question__questions}>
                 {
-                    question.answers.map( (answer,index) => {
-                        const correctIndex = getCorrectAnswer(currentTicket[currentQuestionNumber])
-                        const yourAnswerIsCorrect = ( index + 1 ) === correctIndex
-                        const isDone = typeof checkedQuestions["Вопрос "+(currentQuestionNumber + 1)] == "number"
+                    question.answers.map((answer, index) => {
+                        // номер правильного ответа
+                        const correctAnswer = getCorrectAnswer(currentTicket[currentQuestionNumber])
+                        // нахождение правильного ответа в списке ответов - подсветка
+                        const isCorrect = (index + 1) === correctAnswer
+                        // ответили ли мы ( кликнули ли мы на ответ )
+                        const isDone = typeof checkedQuestions[question.id] == "object";
+                        // нахождение того ответа по которому мы кликнули для  ( ваш ответ )
+                        const isClickedCurrentAnswer = (index + 1) === checkedQuestions[question.id]?.answer
                         return (
-                        <div className={styles.question__item} key={index} onClick={
-                            () => answerClickHandler(question.title,index + 1 )}>
-                            <span className={styles.item__num}>{index+1}.</span>
-                            <span
-                                onClick={ setCurrentQuestionNumber  && ( () => setCurrentQuestionNumber(currentQuestionNumber + 1)) }
-                                className={cn(styles.item__text,
-                                {
-                                    [styles.correctAnswer] : yourAnswerIsCorrect && isDone,
-                                    [styles.answered] : isDone
-                                }
+                            <div className={styles.question__item} key={index} onClick={
+                                () => answerClickHandler(question.title.split(" ")[1], question.id, index + 1, (index + 1) === correctAnswer, isDone)}>
+                                <span className={styles.item__num}>{index + 1}.</span>
+                                <span className={cn(styles.item__text,
+                                    {
+                                        // correct answer - желтый фон настоящего правильного ответа
+                                        [styles.correctAnswer]: isCorrect && isDone,
+                                        // answered - выбрали ли уже ответ - нажать нельзя потом
+                                        [styles.answered]: isDone
+                                    }
                                 )}>
-                                { answer.answer_text }
+                                {answer.answer_text}
                             </span>
-                            {
-                                ( index + 1) === Number(checkedQuestions["Вопрос "+(currentQuestionNumber + 1)]) && isDone && !yourAnswerIsCorrect && <span className={cn(styles.yourAnswerInCorrect)}>( Ваш ответ )</span>
-                            }
-                            {
-                                ( index + 1) === Number(checkedQuestions["Вопрос "+(currentQuestionNumber + 1)]) && isDone && yourAnswerIsCorrect && <span className={cn(styles.yourAnswerCorrect)}>( Ваш ответ )</span>
-                            }
+                                {
+                                    isClickedCurrentAnswer && isDone && !isCorrect &&
+                                    <span className={cn(styles.yourAnswerInCorrect)}>( Ваш ответ )</span>
+                                }
+                                {
+                                    isClickedCurrentAnswer && isDone && isCorrect &&
+                                    <span className={cn(styles.yourAnswerCorrect)}>( Ваш ответ )</span>
+                                }
 
-                        </div>
-                    )})
+                            </div>
+                        )
+                    })
                 }
 
             </div>
@@ -113,24 +144,30 @@ const TicketQuestionArea: FC<IProps> = ( { question,
                             showHelper
                                 ? (
                                     <>
-                                        <span onClick={ () => setShowHelper(false)}>Скрыть подсказку</span>
+                                        <span onClick={() => setShowHelper(false)}>Скрыть подсказку</span>
                                         <img src={upArrow} alt=""/>
                                     </>
                                 )
                                 : (
                                     <>
-                                        <span onClick={ () => setShowHelper(true)}>Показать подсказку</span>
+                                        <span onClick={() => setShowHelper(true)}>Показать подсказку</span>
                                         <img src={downArrow} alt=""/>
                                     </>
                                 )
                         }
 
                     </div>
-                    {}
+                    {
+                        Object.keys(checkedQuestions).length !== currentTicket.length - 1 && (
+                            (
+                                <span className={styles.skip} onClick={changeQuestionsHandler}>
+                                Пропустить
+                            </span>
+                            )
+                        )
+                    }
 
-                    <span className={styles.skip}>
-                        Пропустить
-                    </span>
+
                 </div>
             </div>
 

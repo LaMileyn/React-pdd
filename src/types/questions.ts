@@ -1,5 +1,6 @@
 export interface IQuestion {
     [key: number] : any,
+    id : number,
     title : string,
     ticket_number : string,
     image : string,
@@ -15,7 +16,19 @@ export interface IAnswer {
 }
 
 export interface ICheckedQuestions {
-    [key : string] : string
+    [key : string] : {
+        isCorrect : boolean,
+        answer  : number,
+        questionIndex : string,
+    }
 }
-
+export interface IResult {
+    id : number,
+    ticketType : "exam" | "ticket" | "theme",
+    checkedQuestions : ICheckedQuestions,
+    timeFinished : string,
+    topic : string,
+    isPassed : boolean,
+    currentTicket : IQuestion[]
+}
 
