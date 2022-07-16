@@ -57,12 +57,16 @@ const TicketQuestionArea: FC<IProps> = ({
             let resCheckNext = checkNextAnswerStep(checkedQuestions, currentQuestionNumber, currentTicket.length)
             if (resCheckNext) {
                 setCurrentQuestionNumber!(resCheckNext - 1)
-            } else {
-                console.log(checkedQuestions)
-                finishTicketHandler()
             }
         }
     }
+    useEffect( () =>{
+        if ( finishTicketHandler){
+            if (Object.values(checkedQuestions).length === currentTicket.length){
+                finishTicketHandler()
+            }
+        }
+    },[checkedQuestions])
 
 
     return (

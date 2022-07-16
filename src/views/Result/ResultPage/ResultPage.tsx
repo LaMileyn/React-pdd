@@ -25,7 +25,7 @@ const ResultPage: FC = (props) => {
         const questions = Object.values(data.checkedQuestions)
         const correctQuestions = questions
             .reduce((acc, curr) => curr.isCorrect ? acc + 1 : acc, 0);
-        const passed = correctQuestions >= questions.length
+        const passed = correctQuestions >= questions.length - 2
         return [passed, correctQuestions, questions]
     }, [resultId,data])
 
