@@ -41,7 +41,6 @@ const TicketQuestionArea: FC<IProps> = ({
     const dispatch = useAppDispatch()
     const answerClickHandler = (questionIndex: string, id: number, answer: number, isCorrect: boolean, isDone: boolean) => {
         if (!isDone) {
-            console.log("new item")
             dispatch(checkedAdd({
                 id,
                 questionIndex,
