@@ -6,13 +6,11 @@ import { IResult} from "../../../types/questions";
 import {getTimerTime} from "../../../utils/helpers/functions";
 import {checkedDelete} from "../../../store/questions/questions.slice";
 import QuestionsPage from "../../QuestionsPage/QuestionsPage";
+import {nanoid} from "nanoid";
 
 
-interface TicketPageProps {
-    type : "exam" | "ticket" | "theme",
-    time : number
-}
-const TicketPage: FC<TicketPageProps> = ( { type, time }) => {
+
+const TicketPage: FC = () => {
 
     const dispatch = useAppDispatch()
     const { id } = useParams()
@@ -21,15 +19,15 @@ const TicketPage: FC<TicketPageProps> = ( { type, time }) => {
     const currentTicket = useMemo( () => {
         return ticketsData[Number(id) - 1]
     },[ticketsData])
-
+    const minutesToDo = 20;
     const finishTicketHandler = (timer : number) =>{
         const isPassed = Object.values(checkedQuestions).reduce( (acc,curr) => curr.isCorrect ? acc : acc+=1,0) <= currentTicket.length - 2
-        const resId = Math.ceil( new Date().getSeconds() * Math.random() )
+        const resId = nanoid()
         const newResult : IResult = {
             id : resId,
             isPassed,
-            timeFinished : getTimerTime( ( time * 60 ) - timer ),
-            ticketType : type,
+            timeFinished : getTimerTime( ( minutesToDo * 60 ) - timer ),
+            ticketType : "ticket",
             topic : `Билет ${id} результаты тренировки`,
             checkedQuestions,
             currentTicket
@@ -43,7 +41,7 @@ const TicketPage: FC<TicketPageProps> = ( { type, time }) => {
 
     if (!currentTicket) return <div>Loading....</div>
     return (
-        <QuestionsPage questionsData={currentTicket} time={20} title={`Билет ${id} ПДД 2022 раешать онлайн`}
+        <QuestionsPage questionsData={currentTicket} time={1} title={`Билет ${id} ПДД 2022 раешать онлайн`}
                        finish={finishTicketHandler} />
     );
 }

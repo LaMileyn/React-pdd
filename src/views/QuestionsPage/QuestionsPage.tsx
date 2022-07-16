@@ -28,7 +28,7 @@ const QuestionsPage : FC<IProps> = ({time,questionsData,title,finish}) => {
     useEffect( () =>{
         const interval = setInterval( () =>{
             if ( timer === 1 ) {
-                return navigate(`result`)
+                return finish(timer)
             } else setTimer( prev => prev - 1)
 
         },1000)

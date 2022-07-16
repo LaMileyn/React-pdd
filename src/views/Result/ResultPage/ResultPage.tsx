@@ -15,16 +15,18 @@ const ResultPage: FC = (props) => {
 
     useEffect( () => {
         const localData = JSON.parse(localStorage.getItem("results")!)
-        setData(localData[Number(resultId)])
+        console.log(localData)
+        setData(localData[String(resultId)])
     },[resultId])
 
-    const [passed, correctQuestions, questions] = useMemo(() => {
+    const [passed, correctQuestions, questions,questionsCount] = useMemo(() => {
         if ( !data ) return [];
         const questions = Object.values(data.checkedQuestions)
+        const questionsCount = data.currentTicket.length
         const correctQuestions = questions
             .reduce((acc, curr) => curr.isCorrect ? acc + 1 : acc, 0);
         const passed = correctQuestions >= questions.length - 2
-        return [passed, correctQuestions, questions]
+        return [passed, correctQuestions, questions,questionsCount]
     }, [resultId,data])
 
     if ( !data ) return <div>Loading.....</div>
@@ -37,7 +39,7 @@ const ResultPage: FC = (props) => {
                 />
                 <ResultBanner passed={passed!}
                               correctQuestions={correctQuestions!}
-                              questionsCount={questions!.length}
+                              questionsCount={questionsCount!}
                               timeFinished={data.timeFinished}
                               ticketId={data.currentTicket[0].ticket_number.split(" ")[1]}
                 />

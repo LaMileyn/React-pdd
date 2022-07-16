@@ -1,6 +1,6 @@
 export interface IQuestion {
     [key: number] : any,
-    id : number,
+    id : string,
     title : string,
     ticket_number : string,
     image : string,
@@ -23,7 +23,7 @@ export interface ICheckedQuestions {
     }
 }
 export interface IResult {
-    id : number,
+    id : string,
     ticketType : "exam" | "ticket" | "theme",
     checkedQuestions : ICheckedQuestions,
     timeFinished : string,

@@ -1,6 +1,7 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {ICheckedQuestions, IQuestion} from "../../types/questions";
 import {fetchPdd} from "./questions.actions";
+import {nanoid} from "nanoid";
 
 
 interface QuestionsData {
@@ -19,7 +20,7 @@ const initialState: QuestionsData = {
     status: "loaded"
 }
 interface CheckedAddAction {
-    id : number,
+    id : string,
     questionIndex : string
     answer : number,
     isCorrect : boolean
@@ -48,7 +49,7 @@ export const questionsSlice = createSlice({
                 state.status = "loaded"
                 const tickets: any = {};
                 const topics : any = {};
-                const data = payload.map( el => ( {...el, id : Number(el.ticket_number.split(" ")[1]) + Number(el.title.split(" ")[1])} ))
+                const data = payload.map( el => ( {...el, id : nanoid()} ))
                 state.allQuestions = data
                 data!.forEach(question => {
                     if (tickets[question.ticket_number]) {

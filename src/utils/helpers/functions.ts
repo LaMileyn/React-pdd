@@ -29,3 +29,40 @@ export const getTimerTime = (sec : number ) => {
     return `${min}:${seconds}`
 
 }
+
+const  getRandomNumbersInRange = (min: number, max:number, count:number) => {
+    let randomNumbers = [];
+    while (randomNumbers.length < count) {
+        randomNumbers.push(Math.floor(Math.random() * (max - min + 1)) + min);
+    }
+    let uniqueNumbers = new Set();
+    randomNumbers.forEach(
+        n => {
+            if (!uniqueNumbers.has(n)) {
+                uniqueNumbers.add(n);
+                return;
+            }
+            let i = 1;
+            while (true) {
+                const more = n + i;
+                if (more <= max && !uniqueNumbers.has(more)) {
+                    uniqueNumbers.add(more);
+                    return;
+                }
+                const less = n - i;
+                if (less >= min && !uniqueNumbers.has(less)) {
+                    uniqueNumbers.add(less);
+                    return;
+                }
+                i++;
+            }
+        }
+    );
+
+    return Array.from(uniqueNumbers);
+}
+
+
+export const generateArrayOfQuestions = ( questions : IQuestion[], count : number) => {
+    return getRandomNumbersInRange(0,questions.length,count).map( element => questions[Number(element)]);
+}

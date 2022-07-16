@@ -9,6 +9,7 @@ import TicketPage from "./views/Ticket/TicketPage/TicketPage";
 import ResultPage from "./views/Result/ResultPage/ResultPage";
 import {useAppDispatch} from "./utils/helpers/hooks";
 import {fetchPdd} from "./store/questions/questions.actions";
+import ExamPage from "./views/Exam/ExamPage/ExamPage";
 
 const App = () => {
 
@@ -21,9 +22,9 @@ const App = () => {
             <Routes>
                 <Route path="/" element={<MainLayout/>}>
                     <Route index element={<MainPage/>}/>
-                    <Route path="ticket/:id" element={<TicketPage time={20} type={"ticket"}/>}/>
-                    <Route path="exam" element={<TicketPage time={20} type={"exam"}/>}/>
-                    <Route path="themes/:id" element={<TicketPage time={15} type={"theme"}/>}/>
+                    <Route path="ticket/:id" element={<TicketPage />}/>
+                    <Route path="exam" element={<ExamPage />}/>
+                    <Route path="themes/:id" element={<TicketPage />}/>
                     <Route path="ticket/:id/result/:resultId" element={<ResultPage />}/>
                     <Route path="exam/result/:resultId" element={<ResultPage />}/>
                     <Route path="themes/:id/result/:resultId" element={<ResultPage />}/>

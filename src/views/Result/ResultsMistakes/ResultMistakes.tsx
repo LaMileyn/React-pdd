@@ -31,17 +31,22 @@ const ResultMistakes: FC<ResultBannerProps> = ({ passed, correctQuestions, quest
                             </div>
                             <div className={styles.mistake__items}>
                                 {
-                                   currentTicket.slice(0,currentTicket.length-1).filter( question =>  !(checkedQuestions[question.id].isCorrect))
-                                        .map((question, index) => (
-                                            <div key={question.id} className={styles.mistake__item}>
-                                                <TicketQuestionArea question={question}
-                                                                    currentTicket={currentTicket}
-                                                                    checkedQuestions={checkedQuestions}
-                                                                    currentQuestionNumber={Number(question.title.split(" ")[1]) - 1}
+                                    Object.keys(checkedQuestions).filter( el => !checkedQuestions[el].isCorrect)
+                                        .sort( (a,b) => Number(checkedQuestions[a].questionIndex) - Number(checkedQuestions[b].questionIndex))
+                                        .map( curr => {
+                                            const question : IQuestion = currentTicket.find( quest => quest.id === curr)!
+                                            return (
+                                                <div key={question.id} className={styles.mistake__item}>
+                                                    <TicketQuestionArea question={question}
+                                                                        currentTicket={currentTicket}
+                                                                        checkedQuestions={checkedQuestions}
+                                                        // currentQuestionNumber={Number(question.title.split(" ")[1]) - 1}
+                                                                        currentQuestionNumber={Number(checkedQuestions[curr].questionIndex) - 1}
 
-                                                />
-                                            </div>
-                                        ))
+                                                    />
+                                                </div>
+                                            )
+                                        })
                                 }
                             </div>
                         </>

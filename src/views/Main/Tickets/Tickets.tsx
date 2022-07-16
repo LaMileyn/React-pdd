@@ -2,13 +2,14 @@ import React, {FC} from 'react';
 import styles from './Tickets.module.scss';
 import cn from 'classnames'
 import {Link} from "react-router-dom";
-import {IQuestion } from "../../../types/questions";
+import {IQuestion} from "../../../types/questions";
 
 
-interface ITicketsProps{
-    tickets : Array<IQuestion[]>
+interface ITicketsProps {
+    tickets: Array<IQuestion[]>
 }
-const Tickets : FC<ITicketsProps> = ({ tickets }) => {
+
+const Tickets: FC<ITicketsProps> = ({tickets}) => {
     return (
         <div className={styles.tickets}>
             <div className={styles.tickets__title}>
@@ -18,14 +19,18 @@ const Tickets : FC<ITicketsProps> = ({ tickets }) => {
             <div className={styles.tickets__mainContent}>
                 <div className={styles.examBlock}>
                     <div className={styles.examBlock__category}>AB</div>
-                    <div className={styles.examBlock__link}>Сдать экзамен</div>
+                    <div className={styles.examBlock__link}>
+                        <Link to={"exam"}>
+                            Сдать экзамен
+                        </Link>
+                    </div>
                 </div>
                 <div className={styles.tickets__items}>
                     {
-                        tickets.map( (el,index) => (
-                            <Link key={index} to={`/ticket/${index+1}`}>
+                        tickets.map((el, index) => (
+                            <Link key={index} to={`/ticket/${index + 1}`}>
                                 <div
-                                     className={cn(styles.tickets__item)}>{index + 1}
+                                    className={cn(styles.tickets__item)}>{index + 1}
                                 </div>
                             </Link>
 
