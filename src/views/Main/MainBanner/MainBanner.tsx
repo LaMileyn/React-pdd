@@ -2,8 +2,9 @@ import React, {FC} from 'react';
 import styles from './MainBanner.module.scss';
 import image from '../../../assets/photos/pdd_sofa.svg'
 import {ButtonStandart} from "../../../components/buttons";
+import {Link} from "react-router-dom";
 
-const MainBanner : FC = (props) => {
+const MainBanner: FC = (props) => {
     return (
         <div className={styles.banner}>
             <div className={styles.banner__text}>
@@ -12,9 +13,11 @@ const MainBanner : FC = (props) => {
                     Покажи, что ты можешь и реши экзамен без единой ошибки
                 </div>
                 <div className={styles.banner__button}>
-                    <ButtonStandart variant={"primary"}>
-                        Пройти экзамен
-                    </ButtonStandart>
+                    <Link to={`exam`}>
+                        <ButtonStandart variant={"primary"}>
+                            Пройти экзамен
+                        </ButtonStandart>
+                    </Link>
                 </div>
             </div>
             <div className={styles.banner__image}>

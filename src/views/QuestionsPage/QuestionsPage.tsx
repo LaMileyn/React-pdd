@@ -68,6 +68,7 @@ const QuestionsPage : FC<IProps> = ({time,questionsData,title,finish}) => {
                         setCurrentQuestionNumber={setCurrentQuestionNumber}
                         currentQuestionNumber={currentQuestionNumber}
                         currentTicket={questionsData}
+                        isExam={title.includes("Экзамен")}
                         question={questionsData[currentQuestionNumber]}/>
                 </div>
             </Container>

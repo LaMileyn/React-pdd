@@ -4,11 +4,10 @@ import star from './../../assets/icons/star.png';
 import upArrow from './../../assets/icons/corner-right-up.png'
 import downArrow from './../../assets/icons/corner-right-down.png'
 import cn from 'classnames'
-import {ICheckedQuestions, IQuestion } from "../../types/questions";
+import {ICheckedQuestions, IQuestion} from "../../types/questions";
 import {useAppDispatch} from "../../utils/helpers/hooks";
 import {checkedAdd} from "../../store/questions/questions.slice";
 import {checkNextAnswerStep, getCorrectAnswer, parseQuestionImageUrl} from "../../utils/helpers/functions";
-
 
 
 interface IProps {
@@ -17,7 +16,8 @@ interface IProps {
     currentTicket: IQuestion[],
     currentQuestionNumber: number,
     setCurrentQuestionNumber?: (page: number) => void,
-    finishTicketHandler? : () => void
+    finishTicketHandler?: () => void,
+    isExam?: boolean
 }
 
 const TicketQuestionArea: FC<IProps> = ({
@@ -26,15 +26,15 @@ const TicketQuestionArea: FC<IProps> = ({
                                             setCurrentQuestionNumber,
                                             checkedQuestions,
                                             currentTicket,
-                                            finishTicketHandler
+                                            finishTicketHandler, isExam
                                         }) => {
 
 
     const [showHelper, setShowHelper] = useState<boolean>(false)
     useEffect(() => {
-        if (!setCurrentQuestionNumber){
+        if (!setCurrentQuestionNumber) {
             setShowHelper(true)
-        }else setShowHelper(false)
+        } else setShowHelper(false)
 
     }, [checkedQuestions])
     const dispatch = useAppDispatch()
@@ -50,20 +50,20 @@ const TicketQuestionArea: FC<IProps> = ({
         }
     }
     const changeQuestionsHandler = () => {
-        if ( finishTicketHandler ){
+        if (finishTicketHandler) {
             let resCheckNext = checkNextAnswerStep(checkedQuestions, currentQuestionNumber, currentTicket.length)
             if (resCheckNext) {
                 setCurrentQuestionNumber!(resCheckNext - 1)
             }
         }
     }
-    useEffect( () =>{
-        if ( finishTicketHandler){
-            if (Object.values(checkedQuestions).length === currentTicket.length){
+    useEffect(() => {
+        if (finishTicketHandler) {
+            if (Object.values(checkedQuestions).length === currentTicket.length) {
                 finishTicketHandler()
             }
         }
-    },[checkedQuestions])
+    }, [checkedQuestions])
 
 
     return (
@@ -86,7 +86,7 @@ const TicketQuestionArea: FC<IProps> = ({
                 {
                     question.answers.map((answer, index) => {
                         // номер правильного ответа
-                        const correctAnswer = getCorrectAnswer(currentTicket.find( el => el.id === question.id)!)
+                        const correctAnswer = getCorrectAnswer(currentTicket.find(el => el.id === question.id)!)
                         const isCorrect = (index + 1) === correctAnswer
                         // ответили ли мы ( кликнули ли мы на ответ )
                         const isDone = typeof checkedQuestions[question.id] == "object";
@@ -94,7 +94,7 @@ const TicketQuestionArea: FC<IProps> = ({
                         const isClickedCurrentAnswer = (index + 1) === checkedQuestions[question.id]?.answer
                         return (
                             <div className={styles.question__item} key={index} onClick={
-                                () => answerClickHandler(String(currentQuestionNumber+1), question.id, index + 1, (index + 1) === correctAnswer, isDone)}>
+                                () => answerClickHandler(String(currentQuestionNumber + 1), question.id, index + 1, (index + 1) === correctAnswer, isDone)}>
                                 <span className={styles.item__num}>{index + 1}.</span>
                                 <span className={cn(styles.item__text,
                                     {
@@ -121,6 +121,7 @@ const TicketQuestionArea: FC<IProps> = ({
                 }
 
             </div>
+
             <div className={styles.question__bottom}>
                 {
                     showHelper && (
@@ -136,24 +137,27 @@ const TicketQuestionArea: FC<IProps> = ({
                 }
 
                 <div className={styles.helperAndSkip}>
-                    <div className={styles.helper}>
-                        {
-                            showHelper
-                                ? (
-                                    <>
-                                        <span onClick={() => setShowHelper(false)}>Скрыть подсказку</span>
-                                        <img src={upArrow} alt=""/>
-                                    </>
-                                )
-                                : (
-                                    <>
-                                        <span onClick={() => setShowHelper(true)}>Показать подсказку</span>
-                                        <img src={downArrow} alt=""/>
-                                    </>
-                                )
-                        }
+                    { !isExam && (
+                        <div className={styles.helper}>
+                            {
+                                showHelper
+                                    ? (
+                                        <>
+                                            <span onClick={() => setShowHelper(false)}>Скрыть подсказку</span>
+                                            <img src={upArrow} alt=""/>
+                                        </>
+                                    )
+                                    : (
+                                        <>
+                                            <span onClick={() => setShowHelper(true)}>Показать подсказку</span>
+                                            <img src={downArrow} alt=""/>
+                                        </>
+                                    )
+                            }
 
-                    </div>
+                        </div>
+                    )}
+
                     {
                         Object.keys(checkedQuestions).length !== currentTicket.length - 1 && finishTicketHandler && (
                             (
@@ -167,6 +171,7 @@ const TicketQuestionArea: FC<IProps> = ({
 
                 </div>
             </div>
+
 
         </div>
     );

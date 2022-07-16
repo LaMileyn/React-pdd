@@ -11,7 +11,7 @@ interface ResultBannerProps {
     questionsCount : number,
     correctQuestions : number,
     currentTicket : IQuestion[],
-    checkedQuestions : ICheckedQuestions
+    checkedQuestions : ICheckedQuestions,
 }
 const ResultMistakes: FC<ResultBannerProps> = ({ passed, correctQuestions, questionsCount,checkedQuestions,currentTicket}) => {
     return (
@@ -40,7 +40,6 @@ const ResultMistakes: FC<ResultBannerProps> = ({ passed, correctQuestions, quest
                                                     <TicketQuestionArea question={question}
                                                                         currentTicket={currentTicket}
                                                                         checkedQuestions={checkedQuestions}
-                                                        // currentQuestionNumber={Number(question.title.split(" ")[1]) - 1}
                                                                         currentQuestionNumber={Number(checkedQuestions[curr].questionIndex) - 1}
 
                                                     />

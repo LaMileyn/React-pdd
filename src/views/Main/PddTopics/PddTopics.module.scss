@@ -26,13 +26,16 @@
   &__item {
     margin-bottom: 10px;
     display: flex;
-    color: var(--blue-normal);
+
     cursor: pointer;
     gap: .5rem;
-
-    &:hover {
-      color: var(--red-normal);
+    span a{
+      color: var(--blue-normal);
+      &:hover {
+        color: var(--red-normal);
+      }
     }
+
 
     img {
       width: 20px;

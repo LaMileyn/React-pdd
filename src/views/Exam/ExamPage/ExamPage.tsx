@@ -1,7 +1,7 @@
 import React, {FC, useEffect, useMemo, useState} from 'react';
 import styles from './ExamPage.module.scss';
 import QuestionsPage from "../../QuestionsPage/QuestionsPage";
-import {generateArrayOfQuestions, getTimerTime} from "../../../utils/helpers/functions";
+import {generateArrayOfQuestions, getTimerTime, localStorageAdd} from "../../../utils/helpers/functions";
 import {useAppDispatch, useAppSelector} from "../../../utils/helpers/hooks";
 import {IQuestion, IResult} from "../../../types/questions";
 import {nanoid} from "nanoid";
@@ -14,7 +14,6 @@ const ExamPage: FC = (props) => {
     useEffect( () => {
         if (!questions.length){
             const data = generateArrayOfQuestions(allQuestions, 20)
-            console.log(data)
             setQuestions(data)
         }
     },[allQuestions])
@@ -33,9 +32,10 @@ const ExamPage: FC = (props) => {
             checkedQuestions,
             currentTicket : questions
         }
-        const localStorageData = JSON.parse(localStorage.getItem("results") || "{}");
-        const data = { ...localStorageData, [resId] : newResult}
-        localStorage.setItem("results",JSON.stringify(data))
+        localStorageAdd('results',newResult)
+        // const localStorageData = JSON.parse(localStorage.getItem("results") || "{}");
+        // const data = { ...localStorageData, [resId] : newResult}
+        // localStorage.setItem("results",JSON.stringify(data))
         dispatch(checkedDelete())
         navigate(`result/${resId}`)
     }

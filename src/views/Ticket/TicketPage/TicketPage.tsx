@@ -3,7 +3,7 @@ import React, {FC, useMemo} from 'react';
 import {useNavigate, useParams} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../../utils/helpers/hooks";
 import { IResult} from "../../../types/questions";
-import {getTimerTime} from "../../../utils/helpers/functions";
+import {getTimerTime, localStorageAdd} from "../../../utils/helpers/functions";
 import {checkedDelete} from "../../../store/questions/questions.slice";
 import QuestionsPage from "../../QuestionsPage/QuestionsPage";
 import {nanoid} from "nanoid";
@@ -32,16 +32,19 @@ const TicketPage: FC = () => {
             checkedQuestions,
             currentTicket
         }
-        const localStorageData = JSON.parse(localStorage.getItem("results") || "{}");
-        const data = { ...localStorageData, [resId] : newResult}
-        localStorage.setItem("results",JSON.stringify(data))
+
+        // const localStorageData = JSON.parse(localStorage.getItem("results") || "{}");
+        // const data = { ...localStorageData, [resId] : newResult}
+        // localStorage.setItem("results",JSON.stringify(data))
+
+        localStorageAdd('results',newResult)
         dispatch(checkedDelete())
         navigate(`result/${resId}`)
     }
 
     if (!currentTicket) return <div>Loading....</div>
     return (
-        <QuestionsPage questionsData={currentTicket} time={1} title={`Билет ${id} ПДД 2022 раешать онлайн`}
+        <QuestionsPage questionsData={currentTicket} time={minutesToDo} title={`Билет ${id} ПДД 2022 раешать онлайн`}
                        finish={finishTicketHandler} />
     );
 }

@@ -30,7 +30,7 @@ export const getTimerTime = (sec : number ) => {
 
 }
 
-const  getRandomNumbersInRange = (min: number, max:number, count:number) => {
+const getRandomNumbersInRange = (min: number, max:number, count:number) => {
     let randomNumbers = [];
     while (randomNumbers.length < count) {
         randomNumbers.push(Math.floor(Math.random() * (max - min + 1)) + min);
@@ -61,8 +61,12 @@ const  getRandomNumbersInRange = (min: number, max:number, count:number) => {
 
     return Array.from(uniqueNumbers);
 }
-
-
 export const generateArrayOfQuestions = ( questions : IQuestion[], count : number) => {
     return getRandomNumbersInRange(0,questions.length,count).map( element => questions[Number(element)]);
+}
+
+export const localStorageAdd = (key : string, newObj : any) =>{
+    const localStorageData = JSON.parse(localStorage.getItem(key) || "{}");
+    const data = { ...localStorageData, [newObj.id] : newObj}
+    localStorage.setItem(key,JSON.stringify(data))
 }
