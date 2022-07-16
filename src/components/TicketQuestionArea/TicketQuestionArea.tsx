@@ -1,13 +1,12 @@
 import React, {FC, useEffect, useState} from 'react';
 import styles from './TicketQuestionArea.module.scss';
 import star from './../../assets/icons/star.png';
-import photoQuest from './../../assets/photos/10_9.jpg'
 import upArrow from './../../assets/icons/corner-right-up.png'
 import downArrow from './../../assets/icons/corner-right-down.png'
 import cn from 'classnames'
-import {ICheckedQuestions, IQuestion, IResult} from "../../types/questions";
+import {ICheckedQuestions, IQuestion } from "../../types/questions";
 import {useAppDispatch} from "../../utils/helpers/hooks";
-import {checkedAdd, checkedDelete} from "../../store/questions/questions.slice";
+import {checkedAdd} from "../../store/questions/questions.slice";
 import {checkNextAnswerStep, getCorrectAnswer, parseQuestionImageUrl} from "../../utils/helpers/functions";
 import {useNavigate} from "react-router-dom";
 
@@ -16,8 +15,8 @@ interface IProps {
     question: IQuestion,
     checkedQuestions: ICheckedQuestions,
     currentTicket: IQuestion[],
-    setCurrentQuestionNumber?: (page: number) => void,
     currentQuestionNumber: number,
+    setCurrentQuestionNumber?: (page: number) => void,
     finishTicketHandler? : () => void
 }
 
@@ -30,7 +29,7 @@ const TicketQuestionArea: FC<IProps> = ({
                                             finishTicketHandler
                                         }) => {
 
-    const navigate = useNavigate()
+
     const [showHelper, setShowHelper] = useState<boolean>(false)
     useEffect(() => {
         if (!setCurrentQuestionNumber){
@@ -47,7 +46,6 @@ const TicketQuestionArea: FC<IProps> = ({
                 answer,
                 isCorrect
             }))
-            // последний ответ
             changeQuestionsHandler()
         }
     }

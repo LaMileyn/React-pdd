@@ -5,19 +5,17 @@ import Container from "../../../components/Container/Container";
 import ResultBanner from "../ResultBanner/ResultBanner";
 import ResultMistakes from "../ResultsMistakes/ResultMistakes";
 import {useParams} from "react-router-dom";
-import {useAppSelector} from "../../../utils/helpers/hooks";
+
 import {IResult} from "../../../types/questions";
 
 const ResultPage: FC = (props) => {
 
     const { resultId } = useParams()
-    const { ticketsData } = useAppSelector(state => state.pdd)
     const [data,setData] = useState<IResult>()
 
     useEffect( () => {
         const localData = JSON.parse(localStorage.getItem("results")!)
         setData(localData[Number(resultId)])
-        console.log(localData[Number(resultId)])
     },[resultId])
 
     const [passed, correctQuestions, questions] = useMemo(() => {
@@ -33,7 +31,7 @@ const ResultPage: FC = (props) => {
     return (
         <section className={styles.resultPage}>
             <Container>
-                <h1>{data.topic}. Результаты тренировки</h1>
+                <h1>{data.topic}</h1>
                 <Paginator currentTicket={data.currentTicket}
                            checkedQuestions={data.checkedQuestions}
                 />

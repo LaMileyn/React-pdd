@@ -1,11 +1,13 @@
 import React, {FC} from 'react';
 import styles from './PddTopics.module.scss';
-import {IQuestion } from "../../../types/questions";
+import {IQuestion} from "../../../types/questions";
+import {Link} from "react-router-dom";
 
 interface ITopicsProps {
-    topics : Array<IQuestion[]>
+    topics: Array<IQuestion[]>
 }
-const PddTopics: FC<ITopicsProps> = ({ topics }) => {
+
+const PddTopics: FC<ITopicsProps> = ({topics}) => {
     return (
         <div className={styles.topics}>
             <div className={styles.topics__headline}>
@@ -15,13 +17,17 @@ const PddTopics: FC<ITopicsProps> = ({ topics }) => {
             </div>
             <div className={styles.topics__items}>
                 {
-                    topics.map( (topic,index) => {
-                        return(
+                    topics.map((topic, index) => {
+                        return (
                             <div key={index} className={styles.topics__item}>
                                 <img src="https://www.freeiconspng.com/uploads/handshake-icon-29.png" alt=""/>
-                                <span>{topic[0].topic} ( {topics.length} вопросов )</span>
+                                <span>
+                                    <Link to={`/themes`}>
+                                        {topic[0].topic} ( {topics.length} вопросов )
+                                    </Link>
+                                </span>
                             </div>
-                            )
+                        )
                     })
                 }
             </div>

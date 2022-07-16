@@ -6,11 +6,7 @@ import {IQuestion} from "../../types/questions";
 export const fetchPdd = createAsyncThunk(
     "pdd/fetchData",
     async () => {
-        try {
-            const {data} = await axios.get<Array<IQuestion>>("https://raw.githubusercontent.com/etspring/pdd_russia/master/questions.json");
-            return data
-        }catch (error){
-            console.log(error)
-        }
+        const {data} = await axios.get<Array<IQuestion>>("https://raw.githubusercontent.com/etspring/pdd_russia/master/questions.json");
+        return data
     }
 )

@@ -20,7 +20,6 @@ const Paginator: FC<PaginatorProps> = memo(({
             {
                 currentTicket.map((question, index) => {
                     const isCorrect = checkedQuestions[question.id]?.answer === getCorrectAnswer(currentTicket[index])
-
                     return (
                         <div
                             onClick={setCurrentQuestionNumber && (() => setCurrentQuestionNumber(index))}

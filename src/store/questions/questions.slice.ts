@@ -4,6 +4,7 @@ import {fetchPdd} from "./questions.actions";
 
 
 interface QuestionsData {
+    allQuestions : Array<IQuestion>,
     topicsData: Array<IQuestion[]>,
     ticketsData: Array<IQuestion[]>,
     checkedQuestions : ICheckedQuestions
@@ -11,6 +12,7 @@ interface QuestionsData {
 }
 
 const initialState: QuestionsData = {
+    allQuestions : [],
     topicsData: [],
     ticketsData: [],
     checkedQuestions : {},
@@ -46,7 +48,8 @@ export const questionsSlice = createSlice({
                 state.status = "loaded"
                 const tickets: any = {};
                 const topics : any = {};
-                const data = payload!.map( el => ( {...el, id : Number(el.ticket_number.split(" ")[1]) + Number(el.title.split(" ")[1])} ))
+                const data = payload.map( el => ( {...el, id : Number(el.ticket_number.split(" ")[1]) + Number(el.title.split(" ")[1])} ))
+                state.allQuestions = data
                 data!.forEach(question => {
                     if (tickets[question.ticket_number]) {
                         tickets[question.ticket_number].push(question)
