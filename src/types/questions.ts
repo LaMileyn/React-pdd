@@ -24,11 +24,11 @@ export interface ICheckedQuestions {
 }
 export interface IResult {
     id : string,
-    ticketType : "exam" | "ticket" | "theme",
+    ticketType : TicketType,
     checkedQuestions : ICheckedQuestions,
     timeFinished : string,
     topic : string,
     isPassed : boolean,
     currentTicket : IQuestion[]
 }
-
+export type TicketType = "exam" | "ticket" | "theme" | "mistakes" | "favourite"

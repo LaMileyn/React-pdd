@@ -15,7 +15,6 @@ const ResultPage: FC = (props) => {
 
     useEffect( () => {
         const localData = JSON.parse(localStorage.getItem("results")!)
-        console.log(localData)
         setData(localData[String(resultId)])
     },[resultId])
 
@@ -25,7 +24,9 @@ const ResultPage: FC = (props) => {
         const questionsCount = data.currentTicket.length
         const correctQuestions = questions
             .reduce((acc, curr) => curr.isCorrect ? acc + 1 : acc, 0);
-        const passed = correctQuestions >= questions.length - 2
+        const questionsToSuccess = ( ( data.ticketType === "ticket" || data.ticketType === "exam" )  ? questionsCount - 2 : Math.round( 0.7 * questionsCount) )
+        console.log(questionsToSuccess)
+        const passed = correctQuestions >= questionsToSuccess
         return [passed, correctQuestions, questions,questionsCount]
     }, [resultId,data])
 
@@ -38,12 +39,14 @@ const ResultPage: FC = (props) => {
                            checkedQuestions={data.checkedQuestions}
                 />
                 <ResultBanner passed={passed!}
+                              type={data.ticketType}
                               correctQuestions={correctQuestions!}
                               questionsCount={questionsCount!}
                               timeFinished={data.timeFinished}
                               ticketId={data.currentTicket[0].ticket_number.split(" ")[1]}
                 />
                 <ResultMistakes passed={passed!}
+                                type={data.ticketType}
                                 checkedQuestions={data.checkedQuestions}
                                 currentTicket={data.currentTicket}
                                 correctQuestions={correctQuestions!}

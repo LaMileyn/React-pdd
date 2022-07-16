@@ -27,7 +27,7 @@ const ExamPage: FC = (props) => {
             id : resId,
             isPassed,
             timeFinished : getTimerTime( ( minutesToDo * 60 ) - timer ),
-            ticketType : "ticket",
+            ticketType : "exam",
             topic : `Экзамен `,
             checkedQuestions,
             currentTicket : questions

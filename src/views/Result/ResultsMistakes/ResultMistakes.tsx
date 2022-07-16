@@ -2,7 +2,7 @@ import React, {FC} from 'react';
 import styles from './ResultsMistakes.module.scss';
 import cn from 'classnames';
 import TicketQuestionArea from "../../../components/TicketQuestionArea/TicketQuestionArea";
-import {ICheckedQuestions, IQuestion} from "../../../types/questions";
+import {ICheckedQuestions, IQuestion, TicketType} from "../../../types/questions";
 
 
 
@@ -12,22 +12,27 @@ interface ResultBannerProps {
     correctQuestions : number,
     currentTicket : IQuestion[],
     checkedQuestions : ICheckedQuestions,
+    type : TicketType
 }
-const ResultMistakes: FC<ResultBannerProps> = ({ passed, correctQuestions, questionsCount,checkedQuestions,currentTicket}) => {
+const ResultMistakes: FC<ResultBannerProps> = ({ passed, correctQuestions, questionsCount,checkedQuestions,currentTicket, type }) => {
     return (
         <div className={styles.mistakes}>
             {
                 passed
                     ? (
-                        <div className={cn(styles.headline, styles.headlineSuccess)}>
+                        <div className={cn(styles.headline,  {
+                            [styles.headlineSuccess] : type === "ticket" || type === "exam"
+                        })}>
                             <h2>Вы не допустили не одной ошибки</h2>
                         </div>
                     )
                     : (
                         <>
-                            <div className={cn(styles.headline, styles.headlineFail)}>
+                            <div className={cn(styles.headline, {
+                                [styles.headlineFail] : type === "ticket" || type === "exam"
+                            })}>
                                 <h2>Вы допустили { questionsCount - correctQuestions } ошибок</h2>
-                                <span>Прорешать ошибки</span>
+                                { (type === "ticket" || type === "exam" ) && <span>Прорешать ошибки</span>}
                             </div>
                             <div className={styles.mistake__items}>
                                 {

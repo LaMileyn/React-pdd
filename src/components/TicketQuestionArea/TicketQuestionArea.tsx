@@ -7,7 +7,12 @@ import cn from 'classnames'
 import {ICheckedQuestions, IQuestion} from "../../types/questions";
 import {useAppDispatch} from "../../utils/helpers/hooks";
 import {checkedAdd} from "../../store/questions/questions.slice";
-import {checkNextAnswerStep, getCorrectAnswer, parseQuestionImageUrl} from "../../utils/helpers/functions";
+import {
+    checkNextAnswerStep,
+    getCorrectAnswer,
+    localStorageAdd,
+    parseQuestionImageUrl
+} from "../../utils/helpers/functions";
 
 
 interface IProps {
@@ -46,6 +51,9 @@ const TicketQuestionArea: FC<IProps> = ({
                 answer,
                 isCorrect
             }))
+            if (!isCorrect){
+                localStorageAdd("mistakes",question)
+            }
             changeQuestionsHandler()
         }
     }

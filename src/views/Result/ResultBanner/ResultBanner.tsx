@@ -1,30 +1,36 @@
 import React, {FC, useMemo} from 'react';
 import styles from './ResultBanner.module.scss';
 import heartImage from './../../../assets/photos/pdd_heart.svg'
-import {ICheckedQuestions} from "../../../types/questions";
+import {ICheckedQuestions, TicketType} from "../../../types/questions";
 import {Link} from "react-router-dom";
+import cn from 'classnames'
 
 interface ResultBannerProps {
     passed : boolean,
     questionsCount : number,
     correctQuestions : number,
     timeFinished: string,
-    ticketId: string
+    ticketId: string,
+    type : TicketType
 }
 
 const ResultBanner: FC<ResultBannerProps> = ({
                                                  correctQuestions,passed,
-                                                 timeFinished, ticketId,questionsCount
+                                                 timeFinished, ticketId,questionsCount, type
                                              }) => {
-
     return (
         <div className={styles.banner}>
             <div className={styles.banner__top}>
                 {
                     !passed
-                        ? <h2 className={styles.fail}>К сожалению, вы не прошли тестирование :(</h2>
-                        : <h2 className={styles.success}>Поздравляем, вы успешно прошли тестирование :)</h2>
+                        ? <h2 className={ cn({
+                            [styles.fail] : type === "exam" || type == "ticket"
+                        })}>К сожалению, вы не прошли тестирование :(</h2>
+                        : <h2 className={ cn({
+                            [styles.success] : type === "exam" || type == "ticket"
+                        })}>Поздравляем, вы успешно прошли тестирование :)</h2>
                 }
+
             </div>
             <div className={styles.banner__middle}>
                 <div className={styles.text}>
@@ -56,14 +62,15 @@ const ResultBanner: FC<ResultBannerProps> = ({
                     <Link to={`/`}><span>Выбрать другой билет</span></Link>
                     <Link to={`/ticket/${ticketId}`}><span>Пройти тест еще раз</span></Link>
                 </div>
-                <div className={styles.bottom__right}>
+                { type === "ticket"  && <div className={styles.bottom__right}>
                     <Link to={`/ticket/${ticketId}`}>
                         <span>
                             Следующий билет {Number(ticketId)+1}
-                        {/*     ИСПРАВИТЬ : СЕЙЧАС НЕТ ПРОВЕРКИ ЕСТЬ ЛИ СЛЕДУЮЩИЙ БИЛЕТ */}
+                            {/*     ИСПРАВИТЬ : СЕЙЧАС НЕТ ПРОВЕРКИ ЕСТЬ ЛИ СЛЕДУЮЩИЙ БИЛЕТ */}
                         </span>
                     </Link>
-                </div>
+                </div> }
+
             </div>
         </div>
     );
