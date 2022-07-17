@@ -8,9 +8,13 @@
     justify-content: space-between;
   }
 
-  &__fav {
+  &__fav{
     width: 32px;
     height: 32px;
+    cursor: pointer;
+    svg :hover{
+      fill: #1C75D4 !important;
+    }
   }
 
   &__image {

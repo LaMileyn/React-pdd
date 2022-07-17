@@ -10,6 +10,8 @@ import ResultPage from "./views/Result/ResultPage/ResultPage";
 import {useAppDispatch} from "./utils/helpers/hooks";
 import {fetchPdd} from "./store/questions/questions.actions";
 import ExamPage from "./views/Exam/ExamPage/ExamPage";
+import MistakesPage from "./views/Mistakes/MistakesPage/MistakesPage";
+import FavouritePage from "./views/Favourite/FavouritePage/FavouritePage";
 
 const App = () => {
 
@@ -24,6 +26,10 @@ const App = () => {
                     <Route index element={<MainPage/>}/>
                     <Route path="ticket/:id" element={<TicketPage />}/>
                     <Route path="exam" element={<ExamPage />}/>
+                    <Route path="mistakes" element={<MistakesPage />}/>
+                    <Route path="mistakes/result/:resultId" element={<ResultPage />}/>
+                    <Route path="favourite" element={<FavouritePage />}/>
+                    <Route path="favourite/result/:resultId" element={<ResultPage />}/>
                     <Route path="themes/:id" element={<TicketPage />}/>
                     <Route path="ticket/:id/result/:resultId" element={<ResultPage />}/>
                     <Route path="exam/result/:resultId" element={<ResultPage />}/>

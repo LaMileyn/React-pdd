@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useEffect, useMemo, useState} from 'react';
 import styles from './TicketQuestionArea.module.scss';
 import star from './../../assets/icons/star.png';
 import upArrow from './../../assets/icons/corner-right-up.png'
@@ -34,14 +34,13 @@ const TicketQuestionArea: FC<IProps> = ({
                                             finishTicketHandler, isExam
                                         }) => {
 
-
     const [showHelper, setShowHelper] = useState<boolean>(false)
     useEffect(() => {
         if (!setCurrentQuestionNumber) {
             setShowHelper(true)
         } else setShowHelper(false)
-
     }, [checkedQuestions])
+    const isFavourite = JSON.parse(localStorage.getItem("favouriteQuestions") || "{}" )[question.id]
     const dispatch = useAppDispatch()
     const answerClickHandler = (questionIndex: string, id: string, answer: number, isCorrect: boolean, isDone: boolean) => {
         if (!isDone) {
@@ -72,14 +71,17 @@ const TicketQuestionArea: FC<IProps> = ({
             }
         }
     }, [checkedQuestions])
-
+    const localStorageFavouriteHandler = () => localStorageAdd("favouriteQuestions", question)
 
     return (
         <div className={styles.question}>
             <div className={styles.question__head}>
                 <h2>Вопрос {currentQuestionNumber + 1}</h2>
-                <div className={styles.question__fav}>
-                    <img src={star} alt=""/>
+                <div className={styles.question__fav} onClick={localStorageFavouriteHandler}>
+                    <svg width="118" height="113" viewBox="0 0 118 113" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M57.9167 0L75.8129 36.2558L115.833 42.1054L86.875 70.3108L93.7092 110.158L57.9167 91.3346L22.1242 110.158L28.9583 70.3108L0 42.1054L40.0204 36.2558L57.9167 0Z"
+                              fill={`${isFavourite ? "#1C75D4" : "" }`} stroke="#1C75D4" strokeWidth={4}  strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
                 </div>
             </div>
             <div className={styles.question__image}>

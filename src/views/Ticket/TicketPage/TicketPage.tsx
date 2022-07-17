@@ -24,7 +24,7 @@ const TicketPage: FC = () => {
         const isPassed = Object.values(checkedQuestions).reduce( (acc,curr) => curr.isCorrect ? acc : acc+=1,0) <= currentTicket.length - 2
         const resId = nanoid()
         const newResult : IResult = {
-            id : resId,
+            id : String(resId),
             isPassed,
             timeFinished : getTimerTime( ( minutesToDo * 60 ) - timer ),
             ticketType : "ticket",
@@ -32,11 +32,6 @@ const TicketPage: FC = () => {
             checkedQuestions,
             currentTicket
         }
-
-        // const localStorageData = JSON.parse(localStorage.getItem("results") || "{}");
-        // const data = { ...localStorageData, [resId] : newResult}
-        // localStorage.setItem("results",JSON.stringify(data))
-
         localStorageAdd('results',newResult)
         dispatch(checkedDelete())
         navigate(`result/${resId}`)

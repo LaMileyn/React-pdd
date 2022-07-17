@@ -29,7 +29,7 @@ const ResultPage: FC = (props) => {
         const passed = correctQuestions >= questionsToSuccess
         return [passed, correctQuestions, questions,questionsCount]
     }, [resultId,data])
-
+    console.log([passed, correctQuestions, questions,questionsCount])
     if ( !data ) return <div>Loading.....</div>
     return (
         <section className={styles.resultPage}>

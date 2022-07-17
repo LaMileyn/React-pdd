@@ -18,7 +18,7 @@ const ResultMistakes: FC<ResultBannerProps> = ({ passed, correctQuestions, quest
     return (
         <div className={styles.mistakes}>
             {
-                passed
+                passed && correctQuestions === currentTicket.length
                     ? (
                         <div className={cn(styles.headline,  {
                             [styles.headlineSuccess] : type === "ticket" || type === "exam"

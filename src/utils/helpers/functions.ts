@@ -67,6 +67,7 @@ export const generateArrayOfQuestions = ( questions : IQuestion[], count : numbe
 
 export const localStorageAdd = (key : string, newObj : any) =>{
     const localStorageData = JSON.parse(localStorage.getItem(key) || "{}");
+    if (localStorageData[newObj.id]) return;
     const data = { ...localStorageData, [newObj.id] : newObj}
     localStorage.setItem(key,JSON.stringify(data))
 }

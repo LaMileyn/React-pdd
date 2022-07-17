@@ -6,6 +6,9 @@
     display: flex;
     margin-bottom: var(--section-vertical-margin);
     gap: 1rem;
+    a{
+      width: 100%;
+    }
     @media screen and (max-width: 545px){
       &{
         flex-direction: column;

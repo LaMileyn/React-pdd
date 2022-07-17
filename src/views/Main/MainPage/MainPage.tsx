@@ -9,10 +9,11 @@ import favourite from '../../../assets/icons/favourite.svg'
 import clock from '../../../assets/icons/clock.svg'
 import PddTopics from "../PddTopics/PddTopics";
 import {useAppSelector} from "../../../utils/helpers/hooks";
+import {Link} from "react-router-dom";
 
 const MainPage: FC = (props) => {
 
-    const { ticketsData, topicsData, status } = useAppSelector( state => state.pdd )
+    const {ticketsData, topicsData, status} = useAppSelector(state => state.pdd)
     if (status === "loading") return <div>Loading..</div>
 
     return (
@@ -22,14 +23,18 @@ const MainPage: FC = (props) => {
                 <MainBanner/>
                 <Tickets tickets={ticketsData}/>
                 <div className={styles.mainPage__buttonCategorysTickets}>
-                    <ButtonIcon variant={"purple"}>
-                        <img src={favourite} alt=""/>
-                        Избранное
-                    </ButtonIcon>
-                    <ButtonIcon variant={"red"}>
-                        <img src={alertTriange} alt=""/>
-                        Мои ошибки
-                    </ButtonIcon>
+                    <Link to={`favourite`} className={styles.button}>
+                        <ButtonIcon variant={"purple"}>
+                            <img src={favourite} alt=""/>
+                            Избранное
+                        </ButtonIcon>
+                    </Link>
+                    <Link to={`mistakes`} className={styles.button}>
+                        <ButtonIcon variant={"red"}>
+                            <img src={alertTriange} alt=""/>
+                            Мои ошибки
+                        </ButtonIcon>
+                    </Link>
                 </div>
                 <PddTopics topics={topicsData}/>
                 <ButtonIcon variant={"blue"}>
